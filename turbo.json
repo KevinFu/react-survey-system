@@ -1,15 +1,18 @@
 {
+  "$schema": "https://turborepo.com/schema.json",
   "tasks": {
-  "$schema": "https://turborepo.org/schema.json",
-  "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "build/**"]
+      "outputs": ["dist/**"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
     },
     "dev": {
+      "persistent": true,
       "cache": false
     },
-    "lint": {},
-    "test": {}
+    "lint":{
+      "outputs": []
+    }
   }
-}}
+}
