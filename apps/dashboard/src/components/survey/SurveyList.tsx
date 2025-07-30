@@ -1,8 +1,8 @@
-import type { FC } from 'react'
+import { useState, type FC } from 'react'
 import SurveyCard from './SurveyCard'
 
 const SurveyList: FC = () => {
-  const surveyList = [
+  const [surveyList, setSurveyList] = useState([
     {
       id: 1,
       title: 'Survey 1',
@@ -21,7 +21,32 @@ const SurveyList: FC = () => {
       description: 'Description 3',
       published: true,
     },
-  ]
+  ])
+
+  const addSurvey = () => {
+    const newId = Math.random().toString().slice(-2)
+    setSurveyList([
+      ...surveyList,
+      {
+        id: Number(newId),
+        title: 'Survey ' + newId,
+        description: 'Description ' + newId,
+        published: true,
+      },
+    ])
+  }
+
+  const publishSurvey = (id: number) => {
+    setSurveyList(
+      surveyList.map((survey) =>
+        survey.id === id ? { ...survey, published: !survey.published } : survey,
+      ),
+    )
+  }
+
+  const deleteSurvey = (id: number) => {
+    setSurveyList(surveyList.filter((survey) => survey.id !== id))
+  }
 
   return (
     <>
@@ -34,9 +59,14 @@ const SurveyList: FC = () => {
             title={title}
             description={description}
             published={published}
+            deleteSurvey={deleteSurvey}
+            publishSurvey={publishSurvey}
           />
         ))}
       </ul>
+      <div>
+        <button onClick={addSurvey}>Add Survey</button>
+      </div>
     </>
   )
 }

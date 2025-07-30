@@ -1,17 +1,28 @@
-import type { FC } from 'react'
+import { type FC } from 'react'
 
 interface SurveyCardProps {
   id: number
   title: string
   description: string
   published: boolean
+  deleteSurvey: (id: number) => void
+  publishSurvey: (id: number) => void
 }
 
-const SurveyCard: FC<SurveyCardProps> = (props) => {
-  const { id, title, description, published } = props
+const SurveyCard: FC<SurveyCardProps> = ({
+  id,
+  title,
+  description,
+  published,
+  deleteSurvey,
+  publishSurvey,
+}) => {
+  const onDelete = () => {
+    deleteSurvey(id)
+  }
 
-  const editSurvey = (id: number) => {
-    console.log('edit', id)
+  const onPublish = () => {
+    publishSurvey(id)
   }
 
   return (
@@ -23,7 +34,8 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
       ) : (
         <span>unPublished</span>
       )}
-      <button onClick={() => editSurvey(id)}>Edit</button>
+      <button onClick={onPublish}>Publish</button>
+      <button onClick={onDelete}>Delete</button>
     </li>
   )
 }

@@ -6,18 +6,19 @@ import globals from 'globals'
 export default [
   {
     ignores: [
-      '.turbo',
-      'node_modules',
-      'dist',
-      'build',
-      'coverage',
-      '.env',
-      '*.md',
-      '*.json',
-      '*.css',
+      '**/.turbo/**',
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/build/**',
+      '**/coverage/**',
+      '**/.env*',
+      '**/*.md',
+      '**/*.json',
+      '**/*.css',
     ],
   },
   js.configs.recommended,
+  ...tseslint.configs.recommended,
   ...tseslint.config({
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -35,9 +36,19 @@ export default [
         ...globals.node,
       },
     },
-    rules: {
-      // 你可以在这里添加自定义规则
-    },
   }),
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        module: 'readonly',
+        exports: 'readonly',
+        require: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+      },
+    },
+  },
   prettier,
 ]
