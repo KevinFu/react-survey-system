@@ -5,6 +5,9 @@ interface SurveyCardProps {
   title: string
   description: string
   published: boolean
+  isStar: boolean
+  answerCount: number
+  createdAt: string
   deleteSurvey: (id: number) => void
   publishSurvey: (id: number) => void
 }
@@ -14,6 +17,9 @@ const SurveyCard: FC<SurveyCardProps> = ({
   title,
   description,
   published,
+  isStar,
+  answerCount,
+  createdAt,
   deleteSurvey,
   publishSurvey,
 }) => {
@@ -34,6 +40,13 @@ const SurveyCard: FC<SurveyCardProps> = ({
       ) : (
         <span>unPublished</span>
       )}
+      {isStar ? (
+        <span style={{ color: 'red' }}>Star</span>
+      ) : (
+        <span>unStar</span>
+      )}
+      <span>{answerCount}</span>
+      <span>{createdAt}</span>
       <button onClick={onPublish}>Publish</button>
       <button onClick={onDelete}>Delete</button>
     </li>
