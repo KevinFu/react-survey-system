@@ -1,5 +1,5 @@
 import { useState, type FC } from 'react'
-import SurveyCard from '../components/SurveyCard'
+import SurveyCard from '../../components/SurveyCard'
 
 const rawSurveyList = [
   {
