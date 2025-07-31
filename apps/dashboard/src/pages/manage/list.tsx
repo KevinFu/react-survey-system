@@ -34,22 +34,6 @@ const rawSurveyList = [
 const SurveyList: FC = () => {
   const [surveyList, setSurveyList] = useState(rawSurveyList)
 
-  const addSurvey = () => {
-    const newId = Math.random().toString().slice(-2)
-    setSurveyList([
-      ...surveyList,
-      {
-        id: Number(newId),
-        title: 'Survey ' + newId,
-        description: 'Description ' + newId,
-        published: true,
-        isStar: false,
-        answerCount: 0,
-        createdAt: new Date().toISOString(),
-      },
-    ])
-  }
-
   const deleteSurvey = (id: number) => {
     setSurveyList(surveyList.filter((survey) => survey.id !== id))
   }
@@ -67,9 +51,6 @@ const SurveyList: FC = () => {
         {surveyList.map((survey) => (
           <SurveyCard key={survey.id} {...survey} deleteSurvey={deleteSurvey} />
         ))}
-      </div>
-      <div>
-        <button onClick={addSurvey}>Add Survey</button>
       </div>
       <div>load more</div>
     </div>
