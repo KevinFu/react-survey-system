@@ -1,7 +1,15 @@
-import type { FC } from 'react'
+import { type FC } from 'react'
+import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
 
 const Statistics: FC = () => {
-  return <div>Statistics Page</div>
+  const { loading, surveyInfo } = useLoadSurveyInfo()
+
+  return (
+    <>
+      <div>Statistics Page</div>
+      {loading ? 'loading' : JSON.stringify(surveyInfo)}
+    </>
+  )
 }
 
 export default Statistics
