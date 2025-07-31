@@ -81,9 +81,15 @@ const SurveyList: FC = () => {
   }
 
   return (
-    <>
-      <h1>Survey List Page</h1>
-      <ul>
+    <div className="bg-base-300 m-20 p-5">
+      <div className="flex justify-center h-[40px] align-middle leading-[40px]">
+        <div className="w-[100px] font-semibold leading-[40px]">
+          <h3 className="">My Survey</h3>
+        </div>
+        <div className="flex-1 text-right">Search</div>
+      </div>
+
+      <div>
         {surveyList.map((survey) => (
           <SurveyCard
             key={survey.id}
@@ -92,11 +98,12 @@ const SurveyList: FC = () => {
             publishSurvey={publishSurvey}
           />
         ))}
-      </ul>
+      </div>
       <div>
         <button onClick={addSurvey}>Add Survey</button>
       </div>
-    </>
+      <div>footer</div>
+    </div>
   )
 }
 
