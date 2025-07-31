@@ -31,7 +31,7 @@ const rawSurveyList = [
   },
 ]
 
-const SurveyList: FC = () => {
+const StaredSurvey: FC = () => {
   const [surveyList, setSurveyList] = useState(rawSurveyList)
 
   const deleteSurvey = (id: number) => {
@@ -57,4 +57,4 @@ const SurveyList: FC = () => {
   )
 }
 
-export default SurveyList
+export default StaredSurvey
