@@ -1,5 +1,6 @@
 import { useState, type FC } from 'react'
 import { EyeIcon, TrashIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
+import ListSearch from '../../components/ListSearch'
 
 const rawSurveyList = [
   {
@@ -113,26 +114,29 @@ const Trash: FC = () => {
   return (
     <>
       <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Trash</h2>
-          <div className="flex gap-2">
-            <button
-              className={`btn btn-outline btn-sm ${selectedIds.length > 0 ? 'btn-primary' : ''}`}
-              onClick={restoreSelected}
-              disabled={selectedIds.length === 0}
-            >
-              <ArrowPathIcon className="w-4 h-4 mr-2" />
-              Restore Selected ({selectedIds.length})
-            </button>
-            <button
-              className={`btn btn-outline btn-sm btn-error ${selectedIds.length > 0 ? '' : 'btn-disabled'}`}
-              onClick={() => confirmDelete('batch')}
-              disabled={selectedIds.length === 0}
-            >
-              <TrashIcon className="w-4 h-4 mr-2" />
-              Delete Selected ({selectedIds.length})
-            </button>
+        <div className="flex items-center mb-2 gap-4">
+          <h2 className="text-2xl font-bold mr-4 whitespace-nowrap">Trash</h2>
+          <div className="ml-auto w-full max-w-xs">
+            <ListSearch />
           </div>
+        </div>
+        <div className="flex gap-2 mb-6">
+          <button
+            className={`btn btn-outline btn-sm ${selectedIds.length > 0 ? 'btn-primary' : ''}`}
+            onClick={restoreSelected}
+            disabled={selectedIds.length === 0}
+          >
+            <ArrowPathIcon className="w-4 h-4 mr-2" />
+            Restore Selected ({selectedIds.length})
+          </button>
+          <button
+            className={`btn btn-outline btn-sm btn-error ${selectedIds.length > 0 ? '' : 'btn-disabled'}`}
+            onClick={() => confirmDelete('batch')}
+            disabled={selectedIds.length === 0}
+          >
+            <TrashIcon className="w-4 h-4 mr-2" />
+            Delete Selected ({selectedIds.length})
+          </button>
         </div>
 
         <div className="overflow-x-auto">

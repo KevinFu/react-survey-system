@@ -1,5 +1,6 @@
 import { useState, type FC } from 'react'
 import SurveyCard from '../../components/SurveyCard'
+import ListSearch from '../../components/ListSearch'
 
 const rawSurveyList = [
   {
@@ -40,11 +41,13 @@ const SurveyList: FC = () => {
 
   return (
     <div>
-      <div className="flex justify-center h-[40px] align-middle leading-[40px]">
-        <div className="w-[100px] font-semibold leading-[40px]">
-          <h3 className="">My Survey</h3>
+      <div className="flex justify-center h-[40px] align-middle leading-[40px] mb-5">
+        <div className="w-[200px] font-semibold leading-[40px]">
+          <h2>My Survey</h2>
         </div>
-        <div className="flex-1 text-right">Search</div>
+        <div className="flex-1 text-right">
+          <ListSearch />
+        </div>
       </div>
 
       <div>
