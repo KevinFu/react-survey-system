@@ -12,7 +12,7 @@ import {
   CopyOutlined,
 } from '@ant-design/icons'
 import { useRequest } from 'ahooks'
-import { updateSurvey } from '../services/survey'
+import { updateSurveyService, duplicateSurveyService } from '../services/survey'
 
 interface SurveyCardProps {
   id: string
@@ -39,9 +39,10 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
   const [isStared, setIsStared] = useState(isStar)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showCopyModal, setShowCopyModal] = useState(false)
+
   const { loading: starLoading, run: starSurvey } = useRequest(
     async () => {
-      await updateSurvey(id, { isStar: !isStared })
+      await updateSurveyService(id, { isStar: !isStared })
     },
     {
       manual: true,
@@ -51,14 +52,22 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
       },
     },
   )
+
+  const { loading: duplicateLoading, run: duplicateSurvey } = useRequest(
+    async () => {
+      await duplicateSurveyService(id)
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('Duplicate successfully')
+      },
+    },
+  )
+
   const onDelete = () => {
     deleteSurvey(id)
     setShowDeleteModal(false)
-  }
-
-  const onCopy = () => {
-    // TODO
-    setShowCopyModal(false)
   }
 
   return (
@@ -145,10 +154,11 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
               type="text"
               size="small"
               icon={<CopyOutlined />}
+              disabled={duplicateLoading}
               className="transition-all duration-200 ease-in-out"
               onClick={() => setShowCopyModal(true)}
             >
-              Copy
+              Duplicate
             </Button>
             <Button
               type="text"
@@ -166,14 +176,14 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
 
       {/* Copy Modal */}
       <Modal
-        title="Copy Survey Link"
+        title="Duplicate Survey"
         open={showCopyModal}
         onCancel={() => setShowCopyModal(false)}
-        onOk={onCopy}
+        onOk={duplicateSurvey}
         okText="Copy"
         cancelText="Cancel"
       >
-        <p>Are you sure you want to copy the survey link to clipboard?</p>
+        <p>Are you sure you want to duplicate the survey?</p>
       </Modal>
 
       {/* Delete Modal */}

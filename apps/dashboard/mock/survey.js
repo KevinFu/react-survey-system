@@ -55,4 +55,17 @@ export default [
       }
     },
   },
+  {
+    // Duplicate Survey
+    url: '/api/survey/duplicate/:id',
+    method: 'post',
+    response: () => {
+      return {
+        code: 0,
+        data: Mock.mock({
+          id: Random.id(),
+        }),
+      }
+    },
+  },
 ]

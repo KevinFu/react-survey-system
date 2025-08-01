@@ -28,12 +28,18 @@ export async function getSurveyList(
   return data
 }
 
-export async function updateSurvey(
+export async function updateSurveyService(
   id: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   opt: { [key: string]: any },
 ): Promise<ResDataType> {
   const url = `/api/survey/${id}`
   const data = (await axios.patch(url, { params: opt })) as ResDataType
+  return data
+}
+
+export async function duplicateSurveyService(id: string): Promise<ResDataType> {
+  const url = `/api/survey/duplicate/${id}`
+  const data = (await axios.post(url)) as ResDataType
   return data
 }
