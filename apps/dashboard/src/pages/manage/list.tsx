@@ -1,14 +1,87 @@
-import { type FC } from 'react'
+import { useEffect, useState, useRef, type FC } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Empty, Spin } from 'antd'
-import { useTitle } from 'ahooks'
+import { useDebounceFn, useRequest, useTitle } from 'ahooks'
 import SurveyCard from '../../components/SurveyCard'
 import ListSearch from '../../components/ListSearch'
-import useLoadSurveyList from '../../hooks/useLoadSurveyList'
+import { getSurveyList } from '../../services/survey'
+import { LIST_DEFAULT_PAGE_SIZE, LIST_SEARCH_PARAM_KEY } from '../../constant'
+
 const SurveyList: FC = () => {
+  const [list, setList] = useState([])
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [started, setStarted] = useState(false)
+
+  const haveMore = total > list.length
+
+  const [searchParams] = useSearchParams()
+  const loadMoreRef = useRef<HTMLDivElement>(null)
+  const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
+
   useTitle('Survey Dashboard - My Surveys')
 
-  const { data = {}, loading } = useLoadSurveyList()
-  const { list = [], total = 0 } = data
+  const { run: load, loading } = useRequest(
+    async () => {
+      const data = await getSurveyList({
+        page,
+        pageSize: LIST_DEFAULT_PAGE_SIZE,
+        keyword,
+      })
+      return data
+    },
+    {
+      manual: true,
+      onSuccess: (res) => {
+        const { list: l = [], total = 0 } = res
+        setList(list.concat(l))
+        setTotal(total)
+        setPage(page + 1)
+      },
+    },
+  )
+
+  const { run: tryLoadMore } = useDebounceFn(
+    () => {
+      const loadMoreRefCurrent = loadMoreRef.current
+      if (!loadMoreRefCurrent) {
+        return
+      }
+      const { bottom } = loadMoreRefCurrent.getBoundingClientRect()
+      if (bottom <= document.body.clientHeight) {
+        load()
+        setStarted(true)
+      }
+    },
+    { wait: 500 },
+  )
+
+  useEffect(() => {
+    setStarted(false)
+    setList([])
+    setPage(1)
+    setTotal(0)
+  }, [keyword])
+
+  useEffect(() => {
+    tryLoadMore()
+  }, [searchParams, tryLoadMore])
+
+  useEffect(() => {
+    if (haveMore) {
+      window.addEventListener('scroll', tryLoadMore)
+    }
+    return () => {
+      window.removeEventListener('scroll', tryLoadMore)
+    }
+  }, [haveMore, searchParams, tryLoadMore])
+
+  const LoadMoreElem = () => {
+    if (!started || loading) return <Spin />
+    if (total === 0) return <Empty description="No Data" />
+    if (!haveMore) return <span>No More Data</span>
+    return <span>Loading Next Page</span>
+  }
 
   return (
     <div>
@@ -22,22 +95,16 @@ const SurveyList: FC = () => {
       </div>
 
       <div>
-        {loading && (
-          <div
-            className="flex justify-center items-center h-full"
-            style={{ height: '500px' }}
-          >
-            <Spin />
-          </div>
-        )}
-        {!loading && list.length === 0 && <Empty description="No data" />}
-        {!loading &&
-          list.length > 0 &&
+        {list.length > 0 &&
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           list.map((survey: any) => <SurveyCard key={survey.id} {...survey} />)}
-        {!loading && total}
       </div>
-      <div>load more</div>
+      <div
+        ref={loadMoreRef}
+        className="flex justify-center items-center h-[40px] align-middle leading-[40px]"
+      >
+        <LoadMoreElem />
+      </div>
     </div>
   )
 }
