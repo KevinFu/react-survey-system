@@ -54,13 +54,12 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
   )
 
   const { loading: duplicateLoading, run: duplicateSurvey } = useRequest(
-    async () => {
-      await duplicateSurveyService(id)
-    },
+    async () => await duplicateSurveyService(id),
     {
       manual: true,
-      onSuccess: () => {
+      onSuccess: (res) => {
         message.success('Duplicate successfully')
+        navigate(`/survey/edit/${res.id}`)
       },
     },
   )
