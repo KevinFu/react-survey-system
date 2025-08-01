@@ -1,139 +1,114 @@
-import type { FC, ChangeEvent, FormEvent } from 'react'
+import type { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { validateUsername } from '../util'
+import { Form, Card, Input, Button, message } from 'antd'
+import { UserOutlined, LockOutlined, IdcardOutlined } from '@ant-design/icons'
 
 const Register: FC = () => {
   const navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [usernameError, setUsernameError] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [confirmPasswordError, setConfirmPasswordError] = useState('')
+  const [form] = Form.useForm()
 
-  const validateConfirmPassword = (pwd: string, confirm: string) => {
-    if (pwd !== confirm) {
-      return 'Passwords do not match.'
-    }
-    return ''
-  }
-
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    setUsername(val)
-    setUsernameError(validateUsername(val))
-  }
-
-  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    setPassword(val)
-    if (confirmPassword) {
-      setConfirmPasswordError(validateConfirmPassword(val, confirmPassword))
-    } else {
-      setConfirmPasswordError('')
-    }
-  }
-
-  const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    setConfirmPassword(val)
-    setConfirmPasswordError(validateConfirmPassword(password, val))
-  }
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    const err = validateUsername(username)
-    setUsernameError(err)
-    const confirmErr = validateConfirmPassword(password, confirmPassword)
-    setConfirmPasswordError(confirmErr)
-    if (err || confirmErr) return
+  const handleSubmit = (values: {
+    username: string
+    password: string
+    confirmPassword: string
+    nickname: string
+  }) => {
+    console.log('Registration values:', values)
+    message.success('Registration successful!')
+    navigate('/login')
   }
 
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="card w-full max-w-lg bg-base-200 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title text-2xl mb-4 justify-center">Register</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-control mb-4">
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your username"
-                className={`input input-bordered w-full${usernameError ? ' input-error' : ''}`}
-                required
-                value={username}
-                onChange={handleUsernameChange}
-              />
-              {usernameError && (
-                <label className="label">
-                  <span className="label-text-alt text-error">
-                    {usernameError}
-                  </span>
-                </label>
-              )}
-            </div>
-            <div className="form-control mb-4">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                className="input input-bordered w-full"
-                required
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </div>
-            <div className="form-control mb-4">
-              <label className="label">
-                <span className="label-text">Confirm Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Confirm your password"
-                className={`input input-bordered w-full${confirmPasswordError ? ' input-error' : ''}`}
-                required
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-              />
-              {confirmPasswordError && (
-                <label className="label">
-                  <span className="label-text-alt text-error">
-                    {confirmPasswordError}
-                  </span>
-                </label>
-              )}
-            </div>
-            <div className="form-control mb-6">
-              <label className="label">
-                <span className="label-text">Nickname</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your nickname"
-                className="input input-bordered w-full"
-                required
-              />
-            </div>
-            <div className="form-control w-full flex flex-row gap-2">
-              <button className="btn btn-primary flex-1" type="submit">
+      <Card className="w-full max-w-lg shadow-xl border-gray-700">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-white">Register</h2>
+        </div>
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              { required: true, message: 'Please input your username!' },
+              {
+                pattern: /^[a-zA-Z][\w]{4,19}$/,
+                message:
+                  'Username must be 5-20 characters, start with a letter, and only contain letters, numbers, and underscores.',
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              placeholder="Enter your username"
+              prefix={<UserOutlined />}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password
+              size="large"
+              placeholder="Enter your password"
+              prefix={<LockOutlined />}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Confirm Password"
+            name="confirmPassword"
+            dependencies={['password']}
+            rules={[
+              { required: true, message: 'Please confirm your password!' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve()
+                  }
+                  return Promise.reject(new Error('Passwords do not match!'))
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              size="large"
+              placeholder="Confirm your password"
+              prefix={<LockOutlined />}
+            />
+          </Form.Item>
+
+          <Form.Item label="Nickname">
+            <Input
+              size="large"
+              placeholder="Enter your nickname"
+              prefix={<IdcardOutlined />}
+              required
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <div className="flex gap-2">
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                className="flex-1"
+              >
                 Register
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline flex-1"
+              </Button>
+              <Button
+                size="large"
+                className="flex-1"
                 onClick={() => navigate('/login')}
               >
                 Already registered? Login
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form.Item>
+        </Form>
+      </Card>
     </div>
   )
 }

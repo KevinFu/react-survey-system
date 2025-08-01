@@ -1,3 +1,204 @@
+/* 导入 Ant Design 样式 */
+@import 'antd/dist/reset.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 去除链接下划线 */
+a {
+  text-decoration: none !important;
+}
+
+/* 深色主题配置 */
+:root {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #3a3a3a;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted: #808080;
+  --border-color: #404040;
+  --accent-color: #1890ff;
+  --success-color: #52c41a;
+  --warning-color: #faad14;
+  --error-color: #ff4d4f;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* 深色主题下的 Ant Design 组件样式覆盖 */
+.ant-card {
+  background-color: #1f2937 !important; /* bg-gray-800 */
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-input {
+  background-color: var(--bg-tertiary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-input:focus,
+.ant-input-focused {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+.ant-input::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* 登录和注册页面的 input 样式 */
+.ant-form .ant-input,
+.ant-form .ant-input-password {
+  background-color: #ffffff !important;
+  border-color: #d1d5db !important; /* border-gray-300 */
+  color: #1f2937 !important; /* text-gray-800 */
+}
+
+.ant-form .ant-input::placeholder,
+.ant-form .ant-input-password::placeholder {
+  color: #9ca3af !important; /* text-gray-400 */
+}
+
+.ant-form .ant-input:focus,
+.ant-form .ant-input-focused,
+.ant-form .ant-input-password:focus,
+.ant-form .ant-input-password-focused {
+  border-color: #3b82f6 !important; /* border-blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* 搜索框样式优化 */
+.ant-input-search .ant-input {
+  background-color: #374151 !important; /* bg-gray-700 */
+  border-color: #4b5563 !important; /* border-gray-600 */
+  color: #ffffff !important;
+}
+
+.ant-input-search .ant-input::placeholder {
+  color: #9ca3af !important; /* text-gray-400 */
+}
+
+.ant-input-search .ant-input:focus,
+.ant-input-search .ant-input-focused {
+  border-color: #3b82f6 !important; /* border-blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+.ant-btn {
+  border-color: var(--border-color) !important;
+}
+
+.ant-btn-default {
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-btn-default:hover {
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--accent-color) !important;
+  color: var(--accent-color) !important;
+}
+
+.ant-table {
+  background-color: #1f2937 !important; /* bg-gray-800 */
+  color: var(--text-primary) !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #1f2937 !important; /* bg-gray-800 */
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-table-tbody > tr > td {
+  background-color: #1f2937 !important; /* bg-gray-800 */
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background-color: #374151 !important; /* bg-gray-700 */
+}
+
+/* Table 中的 checkbox 样式 */
+.ant-table .ant-checkbox-inner {
+  background-color: #374151 !important; /* bg-gray-700 */
+  border-color: #6b7280 !important; /* border-gray-500 */
+}
+
+.ant-table .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #3b82f6 !important; /* bg-blue-500 */
+  border-color: #3b82f6 !important;
+}
+
+.ant-table .ant-checkbox-wrapper {
+  color: #ffffff !important;
+}
+
+.ant-modal-content {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-modal-header {
+  background-color: var(--bg-secondary) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.ant-modal-title {
+  color: var(--text-primary) !important;
+}
+
+.ant-modal-footer {
+  border-top-color: var(--border-color) !important;
+}
+
+.ant-form-item-label > label {
+  color: var(--text-primary) !important;
+}
+
+.ant-checkbox-wrapper {
+  color: var(--text-primary) !important;
+}
+
+.ant-checkbox-inner {
+  background-color: var(--bg-tertiary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--accent-color) !important;
+  border-color: var(--accent-color) !important;
+}
+
+.ant-tag {
+  background-color: var(--bg-tertiary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.ant-tag-success {
+  background-color: rgba(82, 196, 26, 0.1) !important;
+  border-color: var(--success-color) !important;
+  color: var(--success-color) !important;
+}
+
+.ant-tag-warning {
+  background-color: rgba(250, 173, 20, 0.1) !important;
+  border-color: var(--warning-color) !important;
+  color: var(--warning-color) !important;
+}
+
+.ant-tag-error {
+  background-color: rgba(255, 77, 79, 0.1) !important;
+  border-color: var(--error-color) !important;
+  color: var(--error-color) !important;
+}

@@ -5,19 +5,16 @@ import UserInfo from '../components/UserInfo'
 
 const MainLayout: FC = () => {
   return (
-    <div className="flex flex-col h-screen">
-      <div className="h-20 bg-base-200 flex items-center justify-between px-20">
+    <div className="flex flex-col h-screen bg-gray-900">
+      <div className="h-20 bg-gray-800 flex items-center justify-between px-20 border-b border-gray-700">
         <Logo />
         <UserInfo />
       </div>
       <Outlet />
-      <footer className="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
-        <aside>
-          <p>
-            Copyright © {new Date().getFullYear()} - All right reserved by
-            Kevin
-          </p>
-        </aside>
+      <footer className="bg-gray-800 text-gray-300 p-4 text-center border-t border-gray-700">
+        <p>
+          Copyright © {new Date().getFullYear()} - All right reserved by Kevin
+        </p>
       </footer>
     </div>
   )

@@ -2,8 +2,15 @@ import type { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { LOGIN_PATHNAME } from '../routers'
 
-const Logo: FC = () => {
-  return <Link to={LOGIN_PATHNAME}>Login</Link>
+const UserInfo: FC = () => {
+  return (
+    <Link
+      to={LOGIN_PATHNAME}
+      className="text-white hover:text-gray-300 transition-colors"
+    >
+      Login
+    </Link>
+  )
 }
 
-export default Logo
+export default UserInfo

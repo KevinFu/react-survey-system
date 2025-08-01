@@ -1,118 +1,110 @@
-import type { FC, FormEvent, ChangeEvent } from 'react'
+import type { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { validateUsername } from '../util'
+import { Form, Card, Input, Button, Checkbox, message } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const LOCAL_KEY = 'survey-remember-login'
 
 const Login: FC = () => {
   const navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [form] = Form.useForm()
   const [rememberMe, setRememberMe] = useState(true)
-  const [usernameError, setUsernameError] = useState('')
 
   useEffect(() => {
     const saved = localStorage.getItem(LOCAL_KEY)
     if (saved) {
       try {
         const { username, password } = JSON.parse(saved)
-        setUsername(username || '')
-        setPassword(password || '')
+        form.setFieldsValue({
+          username: username || '',
+          password: password || '',
+        })
       } catch (e) {
         console.log('parse error', e)
       }
     }
-  }, [])
+  }, [form])
 
-  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    setUsername(val)
-    setUsernameError(validateUsername(val))
-  }
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    const err = validateUsername(username)
-    setUsernameError(err)
-    if (err) return
+  const handleSubmit = (values: { username: string; password: string }) => {
+    console.log('Login values:', values)
     if (rememberMe) {
-      localStorage.setItem(LOCAL_KEY, JSON.stringify({ username, password }))
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(values))
     } else {
       localStorage.removeItem(LOCAL_KEY)
     }
-    // navigate('/dashboard')
+    message.success('Login successful!')
+    navigate('/dashboard')
   }
 
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="card w-full max-w-lg bg-base-200 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title text-2xl mb-4 justify-center">Login</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-control mb-4">
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your username"
-                className={`input input-bordered w-full${usernameError ? ' input-error' : ''}`}
-                required
-                value={username}
-                onChange={handleUsernameChange}
-              />
-              {usernameError && (
-                <label className="label">
-                  <span className="label-text-alt text-error">
-                    {usernameError}
-                  </span>
-                </label>
-              )}
-            </div>
-            <div className="form-control mb-4">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                className="input input-bordered w-full"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className="form-control mb-6 flex flex-row items-center gap-2">
-              <input
-                type="checkbox"
-                className="checkbox checkbox-sm"
-                id="rememberMe"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-              />
-              <label
-                htmlFor="rememberMe"
-                className="label-text cursor-pointer select-none"
+      <Card className="w-full max-w-lg shadow-xl border-gray-700">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-white">Login</h2>
+        </div>
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              { required: true, message: 'Please input your username!' },
+              {
+                pattern: /^[a-zA-Z][\w]{4,19}$/,
+                message:
+                  'Username must be 5-20 characters, start with a letter, and only contain letters, numbers, and underscores.',
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              placeholder="Enter your username"
+              prefix={<UserOutlined />}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password
+              size="large"
+              placeholder="Enter your password"
+              prefix={<LockOutlined />}
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Checkbox
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            >
+              Remember me
+            </Checkbox>
+          </Form.Item>
+
+          <Form.Item>
+            <div className="flex gap-2">
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                className="flex-1"
               >
-                Remember me
-              </label>
-            </div>
-            <div className="form-control w-full flex flex-row gap-2">
-              <button className="btn btn-primary flex-1" type="submit">
                 Login
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline flex-1"
+              </Button>
+              <Button
+                size="large"
+                className="flex-1"
                 onClick={() => navigate('/register')}
               >
                 Register
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Form.Item>
+        </Form>
+      </Card>
     </div>
   )
 }

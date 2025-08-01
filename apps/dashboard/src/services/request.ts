@@ -1,4 +1,5 @@
 import axios, { type AxiosResponse } from 'axios'
+import { message } from 'antd'
 
 const instance = axios.create({
   timeout: 5 * 1000,
@@ -9,8 +10,7 @@ instance.interceptors.response.use((res) => {
   const { code, data, msg } = responseData
 
   if (code !== 0) {
-    alert(msg)
-
+    message.error(msg)
     throw new Error(msg)
   }
 

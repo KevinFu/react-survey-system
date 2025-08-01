@@ -1,13 +1,9 @@
-import {
-  type FC,
-  type ChangeEvent,
-  type KeyboardEvent,
-  useState,
-  useEffect,
-} from 'react'
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { type FC, type ChangeEvent, useState, useEffect } from 'react'
+import { Input } from 'antd'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { LIST_SEARCH_PARAM_KEY } from '../constant'
+
+const { Search } = Input
 
 const ListSearch: FC = () => {
   const nav = useNavigate()
@@ -28,16 +24,6 @@ const ListSearch: FC = () => {
     }
   }
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      onSearch()
-    }
-  }
-
-  const handleIconClick = () => {
-    onSearch()
-  }
-
   const onSearch = () => {
     nav({
       pathname,
@@ -46,21 +32,15 @@ const ListSearch: FC = () => {
   }
 
   return (
-    <label className="input cursor-pointer">
-      <MagnifyingGlassIcon
-        className="h-5 w-5 opacity-50 hover:opacity-80 transition"
-        onClick={handleIconClick}
-      />
-      <input
-        type="search"
-        required
-        placeholder="Search"
-        value={value}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        className="grow"
-      />
-    </label>
+    <Search
+      placeholder="Search surveys..."
+      value={value}
+      onChange={handleChange}
+      onSearch={onSearch}
+      style={{ width: 300 }}
+      size="middle"
+      className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+    />
   )
 }
 

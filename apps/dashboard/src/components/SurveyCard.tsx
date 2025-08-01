@@ -1,15 +1,16 @@
 import { type FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Card, Button, Modal, Tag, Space } from 'antd'
 import {
-  PencilIcon,
-  ChartBarIcon,
-  StarIcon,
-  EyeIcon,
-  TrashIcon,
-  CalendarIcon,
-  ChatBubbleLeftRightIcon,
-  ClipboardDocumentIcon,
-} from '@heroicons/react/24/outline'
+  EditOutlined,
+  BarChartOutlined,
+  StarOutlined,
+  EyeOutlined,
+  DeleteOutlined,
+  CalendarOutlined,
+  MessageOutlined,
+  CopyOutlined,
+} from '@ant-design/icons'
 
 interface SurveyCardProps {
   id: number
@@ -42,153 +43,146 @@ const SurveyCard: FC<SurveyCardProps> = ({
 
   const onCopy = () => {
     // TODO
+    setShowCopyModal(false)
   }
 
   return (
     <>
-      <div className="card bg-base-300 mb-8 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border border-transparent hover:border-base-content/10">
-        <div className="card-body p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <Link
-                className="text-lg font-semibold text-base-content/80 hover:text-primary cursor-pointer"
-                to={
-                  published ? `/survey/statistics/${id}` : `/survey/edit/${id}`
-                }
-              >
-                <span className="inline-flex items-center gap-1">
-                  {isStar && <StarIcon className="w-4 h-4 fill-current" />}
-                  {title}
-                </span>
-              </Link>
-            </div>
-            <div className="flex items-center gap-4">
-              {published ? (
-                <span className="badge badge-success gap-2">
-                  <EyeIcon className="w-3 h-3" />
-                  Published
-                </span>
-              ) : (
-                <span className="badge badge-warning gap-2">
-                  <EyeIcon className="w-3 h-3" />
-                  Unpublished
-                </span>
-              )}
-              <div className="flex items-center gap-2 text-sm text-base-content/70">
-                <ChatBubbleLeftRightIcon className="w-4 h-4" />
-                <span>{answerCount} responses</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-base-content/70">
-                <CalendarIcon className="w-4 h-4" />
-                <span>{createdAt}</span>
-              </div>
-            </div>
+      <Card className="mb-8 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border-gray-700 bg-gray-800">
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <Link
+              className="text-lg font-semibold text-white hover:text-blue-400 cursor-pointer"
+              to={published ? `/survey/statistics/${id}` : `/survey/edit/${id}`}
+            >
+              <span className="inline-flex items-center gap-1">
+                {isStar && <StarOutlined className="text-yellow-400" />}
+                {title}
+              </span>
+            </Link>
           </div>
-
-          <div className="divider my-2"></div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <button
-                className="btn btn-ghost btn-sm text-base-content/70 hover:text-primary"
-                onClick={() => {
-                  navigate(`/survey/edit/${id}`)
-                }}
-              >
-                <PencilIcon className="w-4 h-4" />
-                Edit Survey
-              </button>
-              <button
-                className={`btn btn-ghost btn-sm ${
-                  published
-                    ? 'text-base-content/70 hover:text-info'
-                    : 'text-base-content/30 cursor-not-allowed'
-                }`}
-                onClick={() => {
-                  if (published) {
-                    navigate(`/survey/statistics/${id}`)
-                  }
-                }}
-                disabled={!published}
-              >
-                <ChartBarIcon className="w-4 h-4" />
-                Statistics
-              </button>
+          <div className="flex items-center gap-4">
+            {published ? (
+              <Tag color="success" icon={<EyeOutlined />}>
+                Published
+              </Tag>
+            ) : (
+              <Tag color="warning" icon={<EyeOutlined />}>
+                Unpublished
+              </Tag>
+            )}
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <MessageOutlined />
+              <span>{answerCount} responses</span>
             </div>
-
-            <div className="flex items-center gap-2">
-              {isStar ? (
-                <button className="btn btn-ghost btn-sm gap-2 text-warning hover:text-warning-focus">
-                  <StarIcon className="w-4 h-4 fill-current" />
-                  Starred
-                </button>
-              ) : (
-                <button className="btn btn-ghost btn-sm gap-2 text-base-content/70 hover:text-warning">
-                  <StarIcon className="w-4 h-4" />
-                  Star
-                </button>
-              )}
-              <button
-                className="btn btn-ghost btn-sm gap-2 text-success hover:text-success-focus"
-                onClick={() => setShowCopyModal(true)}
-              >
-                <ClipboardDocumentIcon className="w-4 h-4" />
-                Copy
-              </button>
-              <button
-                className="btn btn-ghost btn-sm gap-2 text-error hover:text-error-focus"
-                onClick={() => setShowDeleteModal(true)}
-              >
-                <TrashIcon className="w-4 h-4" />
-                Delete
-              </button>
+            <div className="flex items-center gap-2 text-sm text-gray-400">
+              <CalendarOutlined />
+              <span>{createdAt}</span>
             </div>
           </div>
         </div>
-      </div>
+
+        <div className="border-t border-gray-700 my-4"></div>
+
+        <div className="flex items-center justify-between">
+          <Space>
+            <Button
+              type="text"
+              size="small"
+              icon={<EditOutlined />}
+              className="bg-gray-700 hover:bg-blue-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+              onClick={() => {
+                navigate(`/survey/edit/${id}`)
+              }}
+            >
+              Edit Survey
+            </Button>
+            <Button
+              type="text"
+              size="small"
+              icon={<BarChartOutlined />}
+              disabled={!published}
+              className="bg-gray-700 hover:bg-green-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => {
+                if (published) {
+                  navigate(`/survey/statistics/${id}`)
+                }
+              }}
+            >
+              Statistics
+            </Button>
+          </Space>
+
+          <Space>
+            {isStar ? (
+              <Button
+                type="text"
+                size="small"
+                icon={<StarOutlined className="text-yellow-400" />}
+                className="bg-gray-700 hover:bg-yellow-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+              >
+                Starred
+              </Button>
+            ) : (
+              <Button
+                type="text"
+                size="small"
+                icon={<StarOutlined />}
+                className="bg-gray-700 hover:bg-yellow-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+              >
+                Star
+              </Button>
+            )}
+            <Button
+              type="text"
+              size="small"
+              icon={<CopyOutlined />}
+              className="bg-gray-700 hover:bg-purple-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+              onClick={() => setShowCopyModal(true)}
+            >
+              Copy
+            </Button>
+            <Button
+              type="text"
+              size="small"
+              danger
+              icon={<DeleteOutlined />}
+              className="bg-gray-700 hover:bg-red-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+              onClick={() => setShowDeleteModal(true)}
+            >
+              Delete
+            </Button>
+          </Space>
+        </div>
+      </Card>
 
       {/* Copy Modal */}
-      <dialog className={`modal ${showCopyModal ? 'modal-open' : ''}`}>
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Copy Survey Link</h3>
-          <p className="py-4">
-            Are you sure you want to copy the survey link to clipboard?
-          </p>
-          <div className="modal-action">
-            <button className="btn" onClick={() => setShowCopyModal(false)}>
-              Cancel
-            </button>
-            <button className="btn btn-primary" onClick={onCopy}>
-              Copy
-            </button>
-          </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button onClick={() => setShowCopyModal(false)}>close</button>
-        </form>
-      </dialog>
+      <Modal
+        title="Copy Survey Link"
+        open={showCopyModal}
+        onCancel={() => setShowCopyModal(false)}
+        onOk={onCopy}
+        okText="Copy"
+        cancelText="Cancel"
+      >
+        <p>Are you sure you want to copy the survey link to clipboard?</p>
+      </Modal>
 
       {/* Delete Modal */}
-      <dialog className={`modal ${showDeleteModal ? 'modal-open' : ''}`}>
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Delete Survey</h3>
-          <p className="py-4">
-            Are you sure you want to delete "{title}"? This action cannot be
-            undone.
-          </p>
-          <div className="modal-action">
-            <button className="btn" onClick={() => setShowDeleteModal(false)}>
-              Cancel
-            </button>
-            <button className="btn btn-error" onClick={onDelete}>
-              Delete
-            </button>
-          </div>
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button onClick={() => setShowDeleteModal(false)}>close</button>
-        </form>
-      </dialog>
+      <Modal
+        title="Delete Survey"
+        open={showDeleteModal}
+        onCancel={() => setShowDeleteModal(false)}
+        onOk={onDelete}
+        okText="Delete"
+        cancelText="Cancel"
+        okButtonProps={{ danger: true }}
+      >
+        <p>
+          Are you sure you want to delete "{title}"? This action cannot be
+          undone.
+        </p>
+      </Modal>
     </>
   )
 }
