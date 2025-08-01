@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Card, Button, Modal, Tag, Space } from 'antd'
+import { Card, Button, Modal, Tag, Space, message } from 'antd'
 import {
   EditOutlined,
   BarChartOutlined,
@@ -11,31 +11,46 @@ import {
   MessageOutlined,
   CopyOutlined,
 } from '@ant-design/icons'
+import { useRequest } from 'ahooks'
+import { updateSurvey } from '../services/survey'
 
 interface SurveyCardProps {
-  id: number
+  id: string
   title: string
   description: string
   isPublished: boolean
   isStar: boolean
   answerCount: number
   createdAt: string
-  deleteSurvey: (id: number) => void
+  deleteSurvey: (id: string) => void
 }
 
-const SurveyCard: FC<SurveyCardProps> = ({
-  id,
-  title,
-  isPublished,
-  isStar,
-  answerCount,
-  createdAt,
-  deleteSurvey,
-}) => {
+const SurveyCard: FC<SurveyCardProps> = (props) => {
+  const {
+    id,
+    title,
+    isPublished,
+    isStar,
+    answerCount,
+    createdAt,
+    deleteSurvey,
+  } = props
   const navigate = useNavigate()
+  const [isStared, setIsStared] = useState(isStar)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showCopyModal, setShowCopyModal] = useState(false)
-
+  const { loading: starLoading, run: starSurvey } = useRequest(
+    async () => {
+      await updateSurvey(id, { isStar: !isStared })
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        setIsStared(!isStared)
+        message.success(`${isStared ? 'UnStar' : 'Stared'} successfully`)
+      },
+    },
+  )
   const onDelete = () => {
     deleteSurvey(id)
     setShowDeleteModal(false)
@@ -58,7 +73,7 @@ const SurveyCard: FC<SurveyCardProps> = ({
               }
             >
               <span className="inline-flex items-center gap-1">
-                {isStar && <StarOutlined />}
+                {isStared && <StarOutlined />}
                 {title}
               </span>
             </Link>
@@ -116,25 +131,16 @@ const SurveyCard: FC<SurveyCardProps> = ({
           </Space>
 
           <Space>
-            {isStar ? (
-              <Button
-                type="text"
-                size="small"
-                icon={<StarOutlined />}
-                className="transition-all duration-200 ease-in-out"
-              >
-                Starred
-              </Button>
-            ) : (
-              <Button
-                type="text"
-                size="small"
-                icon={<StarOutlined />}
-                className="transition-all duration-200 ease-in-out"
-              >
-                Star
-              </Button>
-            )}
+            <Button
+              type="text"
+              size="small"
+              icon={<StarOutlined />}
+              className="transition-all duration-200 ease-in-out"
+              disabled={starLoading}
+              onClick={() => starSurvey()}
+            >
+              {isStared ? 'UnStar' : 'Stared'}
+            </Button>
             <Button
               type="text"
               size="small"

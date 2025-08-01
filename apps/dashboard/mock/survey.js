@@ -45,4 +45,14 @@ export default [
       }
     },
   },
+  {
+    // Update Survey
+    url: '/api/survey/:id',
+    method: 'patch',
+    response: () => {
+      return {
+        code: 0,
+      }
+    },
+  },
 ]

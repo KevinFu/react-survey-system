@@ -27,3 +27,13 @@ export async function getSurveyList(
   const data = (await axios.get(url, { params: opt })) as ResDataType
   return data
 }
+
+export async function updateSurvey(
+  id: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  opt: { [key: string]: any },
+): Promise<ResDataType> {
+  const url = `/api/survey/${id}`
+  const data = (await axios.patch(url, { params: opt })) as ResDataType
+  return data
+}

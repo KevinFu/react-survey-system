@@ -5,7 +5,7 @@ export default function getSurveyList(len = 10, isDeleted = false) {
   const list = []
   for (let i = 0; i < len; i++) {
     list.push({
-      _id: Random.id(),
+      id: Random.id(),
       title: Random.title(),
       isPublished: Random.boolean(),
       isStar: Random.boolean(),
