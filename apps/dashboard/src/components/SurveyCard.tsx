@@ -26,17 +26,10 @@ interface SurveyCardProps {
 }
 
 const SurveyCard: FC<SurveyCardProps> = (props) => {
-  const {
-    id,
-    title,
-    isPublished,
-    isStar,
-    answerCount,
-    createdAt,
-    deleteSurvey,
-  } = props
+  const { id, title, isPublished, isStar, answerCount, createdAt } = props
   const navigate = useNavigate()
   const [isStared, setIsStared] = useState(isStar)
+  const [isDeleted, setIsDeleted] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [showCopyModal, setShowCopyModal] = useState(false)
 
@@ -64,10 +57,21 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
     },
   )
 
-  const onDelete = () => {
-    deleteSurvey(id)
-    setShowDeleteModal(false)
-  }
+  const { loading: deleteLoading, run: deleteSurvey } = useRequest(
+    async () => {
+      await updateSurveyService(id, { isDeleted: true })
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('Delete successfully')
+        setIsDeleted(true)
+        setShowDeleteModal(false)
+      },
+    },
+  )
+
+  if (isDeleted) return
 
   return (
     <>
@@ -163,6 +167,7 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
               type="text"
               size="small"
               danger
+              disabled={deleteLoading}
               icon={<DeleteOutlined />}
               className="transition-all duration-200 ease-in-out"
               onClick={() => setShowDeleteModal(true)}
@@ -190,15 +195,12 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
         title="Delete Survey"
         open={showDeleteModal}
         onCancel={() => setShowDeleteModal(false)}
-        onOk={onDelete}
+        onOk={deleteSurvey}
         okText="Delete"
         cancelText="Cancel"
         okButtonProps={{ danger: true }}
       >
-        <p>
-          Are you sure you want to delete "{title}"? This action cannot be
-          undone.
-        </p>
+        <p>Are you sure you want to move "{title}" to trash ?</p>
       </Modal>
     </>
   )
