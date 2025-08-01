@@ -5,14 +5,16 @@ import {
   ReloadOutlined,
   StarOutlined,
 } from '@ant-design/icons'
-import { Button, Table, Modal, Tag, Space, message, Spin } from 'antd'
+import { Button, Table, Modal, Tag, message, Spin } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { useTitle } from 'ahooks'
+import { useRequest, useTitle } from 'ahooks'
 import ListSearch from '../../components/ListSearch'
 import ListPage from '../../components/ListPage'
 import useLoadSurveyList from '../../hooks/useLoadSurveyList'
+import { updateSurveyService } from '../../services/survey'
+
 interface SurveyItem {
-  id: number
+  id: string
   title: string
   description: string
   isPublished: boolean
@@ -24,58 +26,31 @@ interface SurveyItem {
 const Trash: FC = () => {
   useTitle('Survey Dashboard - Trashed Surveys')
 
-  const { data = {}, loading } = useLoadSurveyList({ isDeleted: true })
+  const { data = {}, loading, refresh } = useLoadSurveyList({ isDeleted: true })
   const { list = [], total = 0 } = data
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  const [selectedIds, setSelectedIds] = useState<React.Key[]>([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [deleteTarget, setDeleteTarget] = useState<{
-    type: 'single' | 'batch'
-    id?: number
-  } | null>(null)
 
-  const restoreSurvey = (id: number) => {
-    // TODO: Implement restore functionality
-    console.log('Restore survey:', id)
-    message.success('Survey restored')
-  }
-
-  const restoreSelected = () => {
-    // TODO: Implement batch restore functionality
-    console.log('Restore selected surveys:', selectedRowKeys)
-    setSelectedRowKeys([])
-    message.success(`${selectedRowKeys.length} surveys restored`)
-  }
-
-  const confirmDelete = (type: 'single' | 'batch', id?: number) => {
-    setDeleteTarget({ type, id })
-    setShowDeleteModal(true)
-  }
+  const { run: restoreSurvey } = useRequest(
+    async () => {
+      for await (const id of selectedIds) {
+        await updateSurveyService(String(id), { isDeleted: false })
+      }
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess: () => {
+        message.success('Restore successfully')
+        refresh()
+        setSelectedIds([])
+      },
+    },
+  )
 
   const executeDelete = () => {
     // TODO: Implement batch delete functionality
-
     setShowDeleteModal(false)
-    setDeleteTarget(null)
-  }
-
-  const getDeleteModalTitle = () => {
-    if (!deleteTarget) return ''
-    return deleteTarget.type === 'single'
-      ? 'Delete Survey'
-      : 'Delete Selected Surveys'
-  }
-
-  const getDeleteModalMessage = () => {
-    if (!deleteTarget) return ''
-
-    if (deleteTarget.type === 'single') {
-      const survey = list.find(
-        (s: { id: number | undefined }) => s.id === deleteTarget.id,
-      )
-      return `Are you sure you want to permanently delete "${survey?.title}"? This action cannot be undone.`
-    } else {
-      return `Are you sure you want to permanently delete ${selectedRowKeys.length} selected survey(s)? This action cannot be undone.`
-    }
   }
 
   const columns: ColumnsType<SurveyItem> = [
@@ -117,37 +92,12 @@ const Trash: FC = () => {
       key: 'createdAt',
       render: (date) => <span className="text-sm">{date}</span>,
     },
-    {
-      title: 'Actions',
-      key: 'actions',
-      render: (_, record) => (
-        <Space>
-          <Button
-            type="text"
-            size="small"
-            icon={<ReloadOutlined />}
-            className="transition-all duration-200 ease-in-out"
-            onClick={() => restoreSurvey(record.id)}
-            title="Restore"
-          />
-          <Button
-            type="text"
-            size="small"
-            danger
-            icon={<DeleteOutlined />}
-            className="transition-all duration-200 ease-in-out"
-            onClick={() => confirmDelete('single', record.id)}
-            title="Delete Permanently"
-          />
-        </Space>
-      ),
-    },
   ]
 
   const rowSelection = {
-    selectedRowKeys,
-    onChange: (newSelectedRowKeys: React.Key[]) => {
-      setSelectedRowKeys(newSelectedRowKeys)
+    selectedIds,
+    onChange: (newSelectedIds: React.Key[]) => {
+      setSelectedIds(newSelectedIds)
     },
   }
 
@@ -167,10 +117,10 @@ const Trash: FC = () => {
           size="small"
           icon={<ReloadOutlined />}
           className="transition-all duration-200 ease-in-out"
-          onClick={restoreSelected}
-          disabled={selectedRowKeys.length === 0}
+          onClick={restoreSurvey}
+          disabled={selectedIds.length === 0}
         >
-          Restore Selected ({selectedRowKeys.length})
+          Restore Selected ({selectedIds.length})
         </Button>
         <Button
           type="default"
@@ -178,10 +128,10 @@ const Trash: FC = () => {
           danger
           icon={<DeleteOutlined />}
           className="transition-all duration-200 ease-in-out"
-          onClick={() => confirmDelete('batch')}
-          disabled={selectedRowKeys.length === 0}
+          // onClick={() => confirmDelete('batch')}
+          disabled={selectedIds.length === 0}
         >
-          Delete Selected ({selectedRowKeys.length})
+          Delete Selected ({selectedIds.length})
         </Button>
       </div>
 
@@ -216,7 +166,7 @@ const Trash: FC = () => {
 
       {/* Delete Confirmation Modal */}
       <Modal
-        title={getDeleteModalTitle()}
+        title="Delete Selected Surveys"
         open={showDeleteModal}
         onCancel={() => setShowDeleteModal(false)}
         onOk={executeDelete}
@@ -224,7 +174,7 @@ const Trash: FC = () => {
         cancelText="Cancel"
         okButtonProps={{ danger: true }}
       >
-        <p>{getDeleteModalMessage()}</p>
+        <p>{`Are you sure you want to permanently delete ${selectedIds.length} selected survey(s)? This action cannot be undone.`}</p>
       </Modal>
     </>
   )

@@ -21,14 +21,14 @@ const useLoadSurveyList = (opt: Partial<SearchParams> = {}) => {
     Number(searchParams.get(LIST_PAGE_SIZE_PARAM_KEY) || '') ||
     LIST_DEFAULT_PAGE_SIZE
 
-  const { data, error, loading } = useRequest(
+  const { data, error, loading, refresh } = useRequest(
     () => getSurveyList({ keyword, isStar, isDeleted, page, pageSize }),
     {
       refreshDeps: [keyword, page, pageSize],
     },
   )
 
-  return { data, loading, error }
+  return { data, loading, error, refresh }
 }
 
 export default useLoadSurveyList
