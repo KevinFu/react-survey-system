@@ -54,7 +54,6 @@ const ListPage: FC<ListPageProps> = ({
           onChange={handlePageChange}
           showSizeChanger
           pageSizeOptions={['10', '20', '50', '100']}
-          className="dark-pagination"
         />
       </div>
     </div>

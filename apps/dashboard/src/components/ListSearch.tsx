@@ -40,7 +40,6 @@ const ListSearch: FC = () => {
       style={{ width: 300 }}
       size="middle"
       allowClear
-      className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
     />
   )
 }

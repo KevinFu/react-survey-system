@@ -1,5 +1,10 @@
 import { useState, type FC } from 'react'
-import { EyeOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons'
+import {
+  EyeOutlined,
+  DeleteOutlined,
+  ReloadOutlined,
+  StarOutlined,
+} from '@ant-design/icons'
 import { Button, Table, Modal, Tag, Space, message, Spin } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useTitle } from 'ahooks'
@@ -10,7 +15,7 @@ interface SurveyItem {
   id: number
   title: string
   description: string
-  published: boolean
+  isPublished: boolean
   isStar: boolean
   answerCount: number
   createdAt: string
@@ -80,23 +85,23 @@ const Trash: FC = () => {
       key: 'title',
       render: (text, record) => (
         <div className="flex items-center gap-2">
-          <div className="font-medium text-white">{text}</div>
-          {record.isStar && <Tag color="warning">Star</Tag>}
+          <div className="font-medium">{text}</div>
+          {record.isStar && <StarOutlined />}
         </div>
       ),
     },
     {
       title: 'Status',
-      dataIndex: 'published',
+      dataIndex: 'isPublished',
       key: 'status',
-      render: (published) =>
-        published ? (
+      render: (isPublished) =>
+        isPublished ? (
           <Tag color="success" icon={<EyeOutlined />}>
             Published
           </Tag>
         ) : (
           <Tag color="warning" icon={<EyeOutlined />}>
-            Unpublished
+            UnPublished
           </Tag>
         ),
     },
@@ -104,13 +109,13 @@ const Trash: FC = () => {
       title: 'Responses',
       dataIndex: 'answerCount',
       key: 'responses',
-      render: (count) => <span className="font-mono text-white">{count}</span>,
+      render: (count) => <span className="font-mono">{count}</span>,
     },
     {
       title: 'Created At',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (date) => <span className="text-sm text-gray-400">{date}</span>,
+      render: (date) => <span className="text-sm">{date}</span>,
     },
     {
       title: 'Actions',
@@ -121,7 +126,7 @@ const Trash: FC = () => {
             type="text"
             size="small"
             icon={<ReloadOutlined />}
-            className="bg-gray-700 hover:bg-green-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+            className="transition-all duration-200 ease-in-out"
             onClick={() => restoreSurvey(record.id)}
             title="Restore"
           />
@@ -130,7 +135,7 @@ const Trash: FC = () => {
             size="small"
             danger
             icon={<DeleteOutlined />}
-            className="bg-gray-700 hover:bg-red-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+            className="transition-all duration-200 ease-in-out"
             onClick={() => confirmDelete('single', record.id)}
             title="Delete Permanently"
           />
@@ -148,11 +153,11 @@ const Trash: FC = () => {
 
   return (
     <>
-      <div className="flex items-center mb-2 gap-4">
-        <h2 className="text-2xl font-bold mr-4 whitespace-nowrap text-white">
-          Trash
-        </h2>
-        <div className="ml-auto w-full max-w-xs">
+      <div className="flex justify-center h-[40px] align-middle leading-[40px] mb-5">
+        <div className="w-[200px] font-semibold leading-[40px]">
+          <h2>Trashed Surveys</h2>
+        </div>
+        <div className="flex-1 text-right">
           <ListSearch />
         </div>
       </div>
@@ -161,7 +166,7 @@ const Trash: FC = () => {
           type="default"
           size="small"
           icon={<ReloadOutlined />}
-          className="bg-gray-700 hover:bg-green-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+          className="transition-all duration-200 ease-in-out"
           onClick={restoreSelected}
           disabled={selectedRowKeys.length === 0}
         >
@@ -172,7 +177,7 @@ const Trash: FC = () => {
           size="small"
           danger
           icon={<DeleteOutlined />}
-          className="bg-gray-700 hover:bg-red-600 hover:text-white text-gray-300 transition-all duration-200 ease-in-out"
+          className="transition-all duration-200 ease-in-out"
           onClick={() => confirmDelete('batch')}
           disabled={selectedRowKeys.length === 0}
         >
@@ -180,23 +185,19 @@ const Trash: FC = () => {
         </Button>
       </div>
 
-      <div className="bg-gray-800 rounded-lg p-4">
+      <div className="rounded-lg p-4">
         <Table
           rowSelection={rowSelection}
           columns={columns}
           dataSource={list}
           rowKey="id"
           pagination={false}
-          className="bg-gray-800"
+          className=""
           locale={{
             emptyText: (
               <div className="text-center py-12">
-                <div className="text-gray-400 text-lg mb-4">
-                  No surveys in trash
-                </div>
-                <p className="text-gray-500">
-                  Surveys you delete will appear here
-                </p>
+                <div className="text-lg mb-4">No surveys in trash</div>
+                <p>Surveys you delete will appear here</p>
               </div>
             ),
           }}

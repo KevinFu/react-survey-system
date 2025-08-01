@@ -7,9 +7,9 @@ const Home: FC = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center text-center">
-      <h2 className="text-6xl mb-4 text-white">Survey & Online Vote</h2>
-      <p className="mb-6 text-lg text-gray-300">
+    <div className="flex-1 flex flex-col items-center justify-center text-center py-[300px]">
+      <h2 className="text-6xl mb-4">Survey & Online Vote</h2>
+      <p className="mb-6 text-lg">
         A total of 20 surveys created, 10 published, and 90 responses received
       </p>
       <Button

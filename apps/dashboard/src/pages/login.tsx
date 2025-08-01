@@ -38,10 +38,10 @@ const Login: FC = () => {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center">
-      <Card className="w-full max-w-lg shadow-xl border-gray-700">
+    <div className="flex flex-1 items-center justify-center py-[100px]">
+      <Card className="w-full max-w-lg shadow-xl">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-white">Login</h2>
+          <h2 className="text-2xl font-bold">Login</h2>
         </div>
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
