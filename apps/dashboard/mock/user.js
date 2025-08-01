@@ -1,5 +1,7 @@
 import Mock from 'mockjs'
 
+const { Random } = Mock
+
 export default [
   {
     url: '/api/user/info',
@@ -7,11 +9,31 @@ export default [
     response: () => {
       return {
         code: 0,
-        data: Mock.mock({
-          name: '@name',
-          age: '@integer(20, 50)',
-          email: '@email',
-        }),
+        data: {
+          username: Random.title(),
+          nickname: Random.title(),
+        },
+      }
+    },
+  },
+  {
+    url: '/api/user/register',
+    method: 'post',
+    response: () => {
+      return {
+        code: 0,
+      }
+    },
+  },
+  {
+    url: '/api/user/login',
+    method: 'post',
+    response: () => {
+      return {
+        code: 0,
+        data: {
+          token: Random.word(20),
+        },
       }
     },
   },

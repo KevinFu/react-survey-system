@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Form, Card, Input, Button, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { useRequest } from 'ahooks'
+import { loginService } from '../services/user'
+import { MANAGE_LIST_PATHNAME } from '../routers'
+import { setUserToken } from '../utils/token'
 
 const LOCAL_KEY = 'survey-remember-login'
 
@@ -26,15 +30,29 @@ const Login: FC = () => {
     }
   }, [form])
 
+  const { run } = useRequest(
+    async (values) => {
+      const { username, password } = values
+      const data = await loginService(username, password)
+      return data
+    },
+    {
+      manual: true,
+      onSuccess: (res) => {
+        setUserToken(res.token || '')
+        message.success('Login successful!')
+        navigate(MANAGE_LIST_PATHNAME)
+      },
+    },
+  )
+
   const handleSubmit = (values: { username: string; password: string }) => {
-    console.log('Login values:', values)
+    run(values)
     if (rememberMe) {
       localStorage.setItem(LOCAL_KEY, JSON.stringify(values))
     } else {
       localStorage.removeItem(LOCAL_KEY)
     }
-    message.success('Login successful!')
-    navigate('/dashboard')
   }
 
   return (

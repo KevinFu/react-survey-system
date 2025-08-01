@@ -2,10 +2,27 @@ import type { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Card, Input, Button, message } from 'antd'
 import { UserOutlined, LockOutlined, IdcardOutlined } from '@ant-design/icons'
+import { useRequest } from 'ahooks'
+import { LOGIN_PATHNAME } from '../routers'
+import { registerService } from '../services/user'
 
 const Register: FC = () => {
-  const navigate = useNavigate()
+  const nav = useNavigate()
   const [form] = Form.useForm()
+
+  const { run } = useRequest(
+    async (values) => {
+      const { username, password, nickname } = values
+      await registerService(username, password, nickname)
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('Registration successful!')
+        nav(LOGIN_PATHNAME)
+      },
+    },
+  )
 
   const handleSubmit = (values: {
     username: string
@@ -13,9 +30,7 @@ const Register: FC = () => {
     confirmPassword: string
     nickname: string
   }) => {
-    console.log('Registration values:', values)
-    message.success('Registration successful!')
-    navigate('/login')
+    run(values)
   }
 
   return (
@@ -101,7 +116,7 @@ const Register: FC = () => {
               <Button
                 size="large"
                 className="flex-1"
-                onClick={() => navigate('/login')}
+                onClick={() => nav('/login')}
               >
                 Already registered? Login
               </Button>
