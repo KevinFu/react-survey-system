@@ -10,7 +10,7 @@
     "typescriptreact",
     "javascriptreact"
   ],
-  "cSpell.words": ["Idcard"],
+  "cSpell.words": ["ahooks", "Idcard"],
   "tailwindcss.includeLanguages": {
     "typescript": "typescript",
     "typescriptreact": "typescriptreact"

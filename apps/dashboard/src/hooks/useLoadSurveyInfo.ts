@@ -1,4 +1,4 @@
-import useSWR from 'swr'
+import { useRequest } from 'ahooks'
 import { useParams } from 'react-router-dom'
 import { getSurvey } from '../services/survey'
 
@@ -8,10 +8,13 @@ const useLoadSurveyInfo = () => {
   const {
     data = {},
     error,
-    isLoading,
-  } = useSWR(id ? ['survey', id] : null, getSurvey)
+    loading,
+  } = useRequest(() => (id ? getSurvey(id) : Promise.resolve({})), {
+    manual: false,
+    refreshDeps: [id],
+  })
 
-  return { surveyInfo: data, loading: isLoading, error }
+  return { surveyInfo: data, loading, error }
 }
 
 export default useLoadSurveyInfo
