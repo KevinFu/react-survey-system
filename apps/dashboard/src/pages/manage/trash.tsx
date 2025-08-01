@@ -1,39 +1,10 @@
 import { useState, type FC } from 'react'
 import { EyeOutlined, DeleteOutlined, ReloadOutlined } from '@ant-design/icons'
-import { Button, Table, Modal, Tag, Space, message } from 'antd'
+import { Button, Table, Modal, Tag, Space, message, Spin } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import { useTitle } from 'ahooks'
 import ListSearch from '../../components/ListSearch'
-
-const rawSurveyList = [
-  {
-    id: 1,
-    title: 'Survey 1',
-    description: 'Description 1',
-    published: true,
-    isStar: true,
-    answerCount: 100,
-    createdAt: '2021-01-01',
-  },
-  {
-    id: 2,
-    title: 'Survey 2',
-    description: 'Description 2',
-    published: false,
-    isStar: false,
-    answerCount: 200,
-    createdAt: '2021-01-02',
-  },
-  {
-    id: 3,
-    title: 'Survey 3',
-    description: 'Description 3',
-    published: true,
-    isStar: false,
-    answerCount: 300,
-    createdAt: '2021-01-03',
-  },
-]
-
+import useLoadSurveyList from '../../hooks/useLoadSurveyList'
 interface SurveyItem {
   id: number
   title: string
@@ -45,18 +16,16 @@ interface SurveyItem {
 }
 
 const Trash: FC = () => {
-  const [surveyList, setSurveyList] = useState<SurveyItem[]>(rawSurveyList)
+  useTitle('Survey Dashboard - Trashed Surveys')
+
+  const { data = {}, loading } = useLoadSurveyList({ isDeleted: true })
+  const { list = [] } = data
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<{
     type: 'single' | 'batch'
     id?: number
   } | null>(null)
-
-  const deleteSurvey = (id: number) => {
-    setSurveyList(surveyList.filter((survey) => survey.id !== id))
-    message.success('Survey deleted permanently')
-  }
 
   const restoreSurvey = (id: number) => {
     // TODO: Implement restore functionality
@@ -77,17 +46,7 @@ const Trash: FC = () => {
   }
 
   const executeDelete = () => {
-    if (!deleteTarget) return
-
-    if (deleteTarget.type === 'single' && deleteTarget.id) {
-      deleteSurvey(deleteTarget.id)
-    } else if (deleteTarget.type === 'batch') {
-      setSurveyList(
-        surveyList.filter((survey) => !selectedRowKeys.includes(survey.id)),
-      )
-      setSelectedRowKeys([])
-      message.success(`${selectedRowKeys.length} surveys deleted permanently`)
-    }
+    // TODO: Implement batch delete functionality
 
     setShowDeleteModal(false)
     setDeleteTarget(null)
@@ -104,7 +63,9 @@ const Trash: FC = () => {
     if (!deleteTarget) return ''
 
     if (deleteTarget.type === 'single') {
-      const survey = surveyList.find((s) => s.id === deleteTarget.id)
+      const survey = list.find(
+        (s: { id: number | undefined }) => s.id === deleteTarget.id,
+      )
       return `Are you sure you want to permanently delete "${survey?.title}"? This action cannot be undone.`
     } else {
       return `Are you sure you want to permanently delete ${selectedRowKeys.length} selected survey(s)? This action cannot be undone.`
@@ -222,7 +183,7 @@ const Trash: FC = () => {
         <Table
           rowSelection={rowSelection}
           columns={columns}
-          dataSource={surveyList}
+          dataSource={list}
           rowKey="id"
           pagination={false}
           className="bg-gray-800"
@@ -239,20 +200,16 @@ const Trash: FC = () => {
             ),
           }}
         />
-      </div>
 
-      {/* Load More */}
-      {surveyList.length > 0 && (
-        <div className="text-center mt-6">
-          <Button
-            type="default"
-            size="small"
-            className="bg-gray-700 hover:bg-gray-600 text-gray-300"
+        {loading && (
+          <div
+            className="flex justify-center items-center h-full"
+            style={{ height: '500px' }}
           >
-            Load More
-          </Button>
-        </div>
-      )}
+            <Spin />
+          </div>
+        )}
+      </div>
 
       {/* Delete Confirmation Modal */}
       <Modal

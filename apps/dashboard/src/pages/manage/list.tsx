@@ -1,49 +1,20 @@
-import { useState, type FC } from 'react'
+import { type FC } from 'react'
+import { Empty, Spin } from 'antd'
+import { useTitle } from 'ahooks'
 import SurveyCard from '../../components/SurveyCard'
 import ListSearch from '../../components/ListSearch'
-
-const rawSurveyList = [
-  {
-    id: 1,
-    title: 'Survey 1',
-    description: 'Description 1',
-    published: true,
-    isStar: true,
-    answerCount: 100,
-    createdAt: '2021-01-01',
-  },
-  {
-    id: 2,
-    title: 'Survey 2',
-    description: 'Description 2',
-    published: false,
-    isStar: false,
-    answerCount: 200,
-    createdAt: '2021-01-02',
-  },
-  {
-    id: 3,
-    title: 'Survey 3',
-    description: 'Description 3',
-    published: true,
-    isStar: false,
-    answerCount: 300,
-    createdAt: '2021-01-03',
-  },
-]
-
+import useLoadSurveyList from '../../hooks/useLoadSurveyList'
 const SurveyList: FC = () => {
-  const [surveyList, setSurveyList] = useState(rawSurveyList)
+  useTitle('Survey Dashboard - My Surveys')
 
-  const deleteSurvey = (id: number) => {
-    setSurveyList(surveyList.filter((survey) => survey.id !== id))
-  }
+  const { data = {}, loading } = useLoadSurveyList()
+  const { list = [], total = 0 } = data
 
   return (
     <div>
       <div className="flex justify-center h-[40px] align-middle leading-[40px] mb-5">
         <div className="w-[200px] font-semibold leading-[40px]">
-          <h2>My Survey</h2>
+          <h2>My Surveys</h2>
         </div>
         <div className="flex-1 text-right">
           <ListSearch />
@@ -51,9 +22,20 @@ const SurveyList: FC = () => {
       </div>
 
       <div>
-        {surveyList.map((survey) => (
-          <SurveyCard key={survey.id} {...survey} deleteSurvey={deleteSurvey} />
-        ))}
+        {loading && (
+          <div
+            className="flex justify-center items-center h-full"
+            style={{ height: '500px' }}
+          >
+            <Spin />
+          </div>
+        )}
+        {!loading && list.length === 0 && <Empty description="No data" />}
+        {!loading &&
+          list.length > 0 &&
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          list.map((survey: any) => <SurveyCard key={survey.id} {...survey} />)}
+        {!loading && total}
       </div>
       <div>load more</div>
     </div>
