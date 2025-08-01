@@ -3,6 +3,7 @@ import { Empty, Spin } from 'antd'
 import { useTitle } from 'ahooks'
 import SurveyCard from '../../components/SurveyCard'
 import ListSearch from '../../components/ListSearch'
+import ListPage from '../../components/ListPage'
 import useLoadSurveyList from '../../hooks/useLoadSurveyList'
 
 const StaredSurvey: FC = () => {
@@ -21,23 +22,24 @@ const StaredSurvey: FC = () => {
           <ListSearch />
         </div>
       </div>
-
-      <div>
-        {loading && (
-          <div
-            className="flex justify-center items-center h-full"
-            style={{ height: '500px' }}
-          >
-            <Spin />
-          </div>
-        )}
-        {!loading && list.length === 0 && <Empty description="No data" />}
-        {!loading &&
-          list.length > 0 &&
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          list.map((survey: any) => <SurveyCard key={survey.id} {...survey} />)}
-      </div>
-      <div>{total} Next Page</div>
+      {loading && (
+        <div
+          className="flex justify-center items-center"
+          style={{ height: '500px' }}
+        >
+          <Spin />
+        </div>
+      )}
+      {!loading && list.length === 0 && <Empty description="No data" />}
+      {!loading && list.length > 0 && (
+        <div>
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {list.map((survey: any) => (
+            <SurveyCard key={survey.id} {...survey} />
+          ))}
+          <ListPage total={total} children={undefined} />
+        </div>
+      )}
     </div>
   )
 }

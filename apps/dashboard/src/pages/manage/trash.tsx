@@ -4,6 +4,7 @@ import { Button, Table, Modal, Tag, Space, message, Spin } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useTitle } from 'ahooks'
 import ListSearch from '../../components/ListSearch'
+import ListPage from '../../components/ListPage'
 import useLoadSurveyList from '../../hooks/useLoadSurveyList'
 interface SurveyItem {
   id: number
@@ -19,7 +20,7 @@ const Trash: FC = () => {
   useTitle('Survey Dashboard - Trashed Surveys')
 
   const { data = {}, loading } = useLoadSurveyList({ isDeleted: true })
-  const { list = [] } = data
+  const { list = [], total = 0 } = data
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<{
@@ -203,12 +204,13 @@ const Trash: FC = () => {
 
         {loading && (
           <div
-            className="flex justify-center items-center h-full"
+            className="flex justify-center items-center"
             style={{ height: '500px' }}
           >
             <Spin />
           </div>
         )}
+        <ListPage total={total} children={undefined} />
       </div>
 
       {/* Delete Confirmation Modal */}

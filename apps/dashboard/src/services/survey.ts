@@ -4,6 +4,8 @@ interface SearchOptions {
   keyword: string
   isStar: boolean
   isDeleted: boolean
+  page: number
+  pageSize: number
 }
 
 export async function getSurvey(id: string): Promise<ResDataType> {
