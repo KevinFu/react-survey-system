@@ -11,7 +11,7 @@ import { useRequest, useTitle } from 'ahooks'
 import ListSearch from '../../components/ListSearch'
 import ListPage from '../../components/ListPage'
 import useLoadSurveyList from '../../hooks/useLoadSurveyList'
-import { updateSurveyService } from '../../services/survey'
+import { updateSurveyService, deleteSurveyService } from '../../services/survey'
 
 interface SurveyItem {
   id: string
@@ -48,9 +48,24 @@ const Trash: FC = () => {
     },
   )
 
-  const executeDelete = () => {
-    // TODO: Implement batch delete functionality
-    setShowDeleteModal(false)
+  const { run: deleteSurveys } = useRequest(
+    async () => {
+      await deleteSurveyService(selectedIds as string[])
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess: () => {
+        message.success('Delete successfully')
+        refresh()
+        setSelectedIds([])
+        setShowDeleteModal(false)
+      },
+    },
+  )
+
+  const confirmDelete = () => {
+    setShowDeleteModal(true)
   }
 
   const columns: ColumnsType<SurveyItem> = [
@@ -128,7 +143,7 @@ const Trash: FC = () => {
           danger
           icon={<DeleteOutlined />}
           className="transition-all duration-200 ease-in-out"
-          // onClick={() => confirmDelete('batch')}
+          onClick={() => confirmDelete()}
           disabled={selectedIds.length === 0}
         >
           Delete Selected ({selectedIds.length})
@@ -142,7 +157,6 @@ const Trash: FC = () => {
           dataSource={list}
           rowKey="id"
           pagination={false}
-          className=""
           locale={{
             emptyText: (
               <div className="text-center py-12">
@@ -169,7 +183,7 @@ const Trash: FC = () => {
         title="Delete Selected Surveys"
         open={showDeleteModal}
         onCancel={() => setShowDeleteModal(false)}
-        onOk={executeDelete}
+        onOk={deleteSurveys}
         okText="Delete Permanently"
         cancelText="Cancel"
         okButtonProps={{ danger: true }}

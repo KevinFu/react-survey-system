@@ -43,3 +43,9 @@ export async function duplicateSurveyService(id: string): Promise<ResDataType> {
   const data = (await axios.post(url)) as ResDataType
   return data
 }
+
+export async function deleteSurveyService(ids: string[]): Promise<ResDataType> {
+  const url = `/api/survey`
+  const data = (await axios.delete(url, { data: { ids } })) as ResDataType
+  return data
+}

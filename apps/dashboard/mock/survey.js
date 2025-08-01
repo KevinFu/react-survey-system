@@ -68,4 +68,14 @@ export default [
       }
     },
   },
+  {
+    // Delete Survey
+    url: '/api/survey',
+    method: 'delete',
+    response: () => {
+      return {
+        code: 0,
+      }
+    },
+  },
 ]
