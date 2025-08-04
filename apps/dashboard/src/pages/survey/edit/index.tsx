@@ -1,14 +1,24 @@
 import { type FC } from 'react'
-import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
+// import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
 
 const Edit: FC = () => {
-  const { loading, surveyInfo } = useLoadSurveyInfo()
+  // const { loading, surveyInfo } = useLoadSurveyInfo()
 
   return (
-    <>
-      <div>Edit Page</div>
-      {loading ? 'loading' : JSON.stringify(surveyInfo)}
-    </>
+    <div className="flex flex-col h-screen bg-[#f0f2f5]">
+      <div className="h-[40px] bg-[#fff]">Header</div>
+      <div className="flex-auto flex-row py-[12px]">
+        <div className="flex h-[100%] mx-[24px]">
+          <div className="w-[285px] px-[12px] bg-[#fff]">Left</div>
+          <div className="flex-1 overflow-hidden relative">
+            <div className="absolute w-[400px] h-[712px] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#fff] overflow-auto shadow-[0_2px_10px_#0000001f]">
+              <div className="h-[1000px]">Canvas Area</div>
+            </div>
+          </div>
+          <div className="w-[300px] px-[12px] bg-[#fff]">Right</div>
+        </div>
+      </div>
+    </div>
   )
 }
 

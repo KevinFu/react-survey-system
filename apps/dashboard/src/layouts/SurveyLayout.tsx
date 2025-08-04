@@ -10,8 +10,6 @@ const SurveyLayout: FC = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div>SurveyLayout Header</div>
-
       {waitingUserData ? (
         <div className="text-center py-[150px]">
           <Spin />
