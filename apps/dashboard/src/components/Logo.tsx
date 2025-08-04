@@ -1,11 +1,21 @@
-import type { FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 import { Link } from 'react-router-dom'
 import { EditOutlined } from '@ant-design/icons'
-import { HOME_PATHNAME } from '../routers'
+import { HOME_PATHNAME, MANAGE_LIST_PATHNAME } from '../routers'
+import useUserStore from '../store/useUserStore'
 
 const Logo: FC = () => {
+  const isLoggedIn = useUserStore((state) => state.isLoggedIn)
+  const [pathname, setPathname] = useState(HOME_PATHNAME)
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setPathname(MANAGE_LIST_PATHNAME)
+    }
+  }, [isLoggedIn])
+
   return (
-    <Link to={HOME_PATHNAME} className="flex items-center">
+    <Link to={pathname} className="flex items-center">
       <EditOutlined
         className="text-white mr-3 text-2xl"
         style={{ lineHeight: 1 }}

@@ -57,3 +57,14 @@ export const MANAGE_STAR_PATHNAME = '/manage/star'
 export const MANAGE_TRASH_PATHNAME = '/manage/trash'
 export const SURVEY_EDIT_PATH = (id: string) => `/survey/edit/${id}`
 export const SURVEY_STATS_PATH = (id: string) => `/survey/statistics/${id}`
+
+export function isLoginOrRegister(pathname: string) {
+  if ([LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname)) return true
+  return false
+}
+
+export function isNoNeedUserInfo(pathname: string) {
+  if ([HOME_PATHNAME, LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname))
+    return true
+  return false
+}
