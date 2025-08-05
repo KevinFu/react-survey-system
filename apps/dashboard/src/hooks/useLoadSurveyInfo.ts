@@ -28,7 +28,9 @@ const useLoadSurveyInfo = () => {
     if (!data) return
 
     const { componentList } = data
-    resetComponents({ componentList, selectedId: '' })
+    const selectedId = componentList.length > 0 ? componentList[0].fe_id : ''
+
+    resetComponents({ componentList, selectedId })
   }, [data, resetComponents])
 
   return { loading, error }
