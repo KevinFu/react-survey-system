@@ -1,4 +1,5 @@
 import { type FC } from 'react'
+import EditHeader from './EditHeader'
 import EditCanvas from './EditCanvas'
 import LeftPanel from './LeftPanel'
 import RightPanel from './RightPanel'
@@ -16,7 +17,7 @@ const Edit: FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-[#f0f2f5]">
-      <div className="h-[40px] bg-[#fff]">Header</div>
+      <EditHeader />
       <div className="flex-auto flex-row py-[12px]">
         <div className="flex h-[100%] mx-[24px]">
           <div className="w-[285px] px-[12px] bg-[#fff]">
