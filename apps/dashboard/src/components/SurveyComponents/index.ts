@@ -16,6 +16,17 @@ const componentConfList: ComponentConfType[] = [
   SurveyTitleConfType,
 ]
 
+export const componentConfGroup = [
+  {
+    groupName: 'Text Display',
+    components: [SurveyTitleConfType],
+  },
+  {
+    groupName: 'User Input',
+    components: [SurveyInputConfType],
+  },
+]
+
 export function getComponentConfByType(type: string) {
   return componentConfList.find((c) => c.type === type)
 }

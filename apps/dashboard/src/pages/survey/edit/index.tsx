@@ -1,5 +1,7 @@
 import { type FC } from 'react'
 import EditCanvas from './EditCanvas'
+import LeftPanel from './LeftPanel'
+
 import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
 import ComponentsStore from '../../../store/componentsReducer'
 
@@ -16,7 +18,9 @@ const Edit: FC = () => {
       <div className="h-[40px] bg-[#fff]">Header</div>
       <div className="flex-auto flex-row py-[12px]">
         <div className="flex h-[100%] mx-[24px]">
-          <div className="w-[285px] px-[12px] bg-[#fff]">Left</div>
+          <div className="w-[285px] px-[12px] bg-[#fff]">
+            <LeftPanel />
+          </div>
           <div
             className="flex-1 overflow-hidden relative"
             onClick={clearSelectedId}
