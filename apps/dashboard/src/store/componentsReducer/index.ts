@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { getNextSelectedId } from './util'
 import type { ComponentPropsType } from '../../components/SurveyComponents'
 
 export type ComponentInfoType = {
@@ -27,6 +28,7 @@ interface ComponentActions {
   changeSelectedId: (fe_id: string) => void
   addComponent: (newComponent: ComponentInfoType) => void
   changeComponentProps: (fe_id: string, newProps: ComponentPropsType) => void
+  removeSelectedComponent: () => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
@@ -94,6 +96,25 @@ export const ComponentsStore = create<ComponentStore>((set) => ({
       return {
         components: {
           ...state.components,
+          componentList: newComponentList,
+        },
+      }
+    })
+  },
+
+  removeSelectedComponent: () => {
+    set((state) => {
+      const { componentList, selectedId } = state.components
+      const index = componentList.findIndex((c) => c.fe_id === selectedId)
+
+      const newComponentList = [
+        ...componentList.slice(0, index),
+        ...componentList.slice(index + 1),
+      ]
+      const newSelectedId = getNextSelectedId(selectedId, componentList)
+      return {
+        components: {
+          selectedId: newSelectedId,
           componentList: newComponentList,
         },
       }

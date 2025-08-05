@@ -2,6 +2,7 @@ import { type FC } from 'react'
 import { Button, Space, Typography } from 'antd'
 import { LeftOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import EditToolbar from './EditToolbar'
 
 const { Title } = Typography
 
@@ -20,7 +21,9 @@ const EditHeader: FC = () => {
             </Title>
           </Space>
         </div>
-        <div className="flex-1 text-center">Edit Header</div>
+        <div className="flex-1 text-center">
+          <EditToolbar />
+        </div>
         <div className="flex-1 text-right">
           <Space>
             <Button>Save</Button>
