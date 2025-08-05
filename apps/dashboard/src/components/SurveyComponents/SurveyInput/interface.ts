@@ -1,9 +1,10 @@
 export interface SurveyInputPropsType {
-  text?: string
+  title?: string
   placeholder?: string
+  onChange?: (newProps: SurveyInputPropsType) => void
 }
 
 export const SurveyInputDefaultProps = {
-  text: 'Input Title',
+  title: 'Input Title',
   placeholder: 'Please input...',
 }

@@ -2,12 +2,13 @@ import type { FC } from 'react'
 import SurveyInputConfType, { type SurveyInputPropsType } from './SurveyInput'
 import SurveyTitleConfType, { type SurveyTitlePropsType } from './SurveyTitle'
 
-export type ComponentPropsType = SurveyInputPropsType | SurveyTitlePropsType
+export type ComponentPropsType = SurveyInputPropsType & SurveyTitlePropsType
 
 export type ComponentConfType = {
   title: string
   type: string
   Component: FC<ComponentPropsType>
+  PropComponent: FC<ComponentPropsType>
   defaultProps: ComponentPropsType
 }
 

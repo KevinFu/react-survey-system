@@ -1,6 +1,7 @@
 import { type FC } from 'react'
 import EditCanvas from './EditCanvas'
 import LeftPanel from './LeftPanel'
+import RightPanel from './RightPanel'
 
 import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
 import ComponentsStore from '../../../store/componentsReducer'
@@ -29,7 +30,9 @@ const Edit: FC = () => {
               <EditCanvas loading={loading} />
             </div>
           </div>
-          <div className="w-[300px] px-[12px] bg-[#fff]">Right</div>
+          <div className="w-[300px] px-[12px] bg-[#fff]">
+            <RightPanel />
+          </div>
         </div>
       </div>
     </div>

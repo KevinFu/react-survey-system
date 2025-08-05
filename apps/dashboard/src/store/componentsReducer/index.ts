@@ -26,6 +26,7 @@ interface ComponentActions {
   resetComponents: (components: ComponentStateType) => void
   changeSelectedId: (fe_id: string) => void
   addComponent: (newComponent: ComponentInfoType) => void
+  changeComponentProps: (fe_id: string, newProps: ComponentPropsType) => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
@@ -61,6 +62,39 @@ export const ComponentsStore = create<ComponentStore>((set) => ({
         components: {
           componentList: newComponentList,
           selectedId: newComponent.fe_id,
+        },
+      }
+    })
+  },
+
+  changeComponentProps: (fe_id, newProps) => {
+    set((state) => {
+      const { componentList } = state.components
+      const index = componentList.findIndex((c) => c.fe_id === fe_id)
+
+      if (index === -1) {
+        return state
+      }
+
+      const curComponent = componentList[index]
+      const updatedComponent = {
+        ...curComponent,
+        props: {
+          ...curComponent.props,
+          ...newProps,
+        },
+      }
+
+      const newComponentList = [
+        ...componentList.slice(0, index),
+        updatedComponent,
+        ...componentList.slice(index + 1),
+      ]
+
+      return {
+        components: {
+          ...state.components,
+          componentList: newComponentList,
         },
       }
     })

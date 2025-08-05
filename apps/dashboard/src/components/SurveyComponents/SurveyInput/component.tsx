@@ -5,10 +5,10 @@ import { type SurveyInputPropsType, SurveyInputDefaultProps } from './interface'
 const { Paragraph } = Typography
 
 const SurveyInput: FC<SurveyInputPropsType> = (props) => {
-  const { text, placeholder } = { ...SurveyInputDefaultProps, ...props }
+  const { title, placeholder } = { ...SurveyInputDefaultProps, ...props }
   return (
     <div>
-      <Paragraph strong>{text}</Paragraph>
+      <Paragraph strong>{title}</Paragraph>
       <div>
         <Input placeholder={placeholder} />
       </div>
