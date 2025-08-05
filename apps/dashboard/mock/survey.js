@@ -29,7 +29,7 @@ export default [
           componentList: [
             // Title
             {
-              id: Random.id(),
+              fe_id: Random.id(),
               type: 'surveyTitle',
               title: 'Title',
               props: {
@@ -40,7 +40,7 @@ export default [
             },
             // Input field 1
             {
-              id: Random.id(),
+              fe_id: Random.id(),
               type: 'surveyInput',
               title: 'Input Field 1',
               props: {
@@ -50,7 +50,7 @@ export default [
             },
             // Input field 2
             {
-              id: Random.id(),
+              fe_id: Random.id(),
               type: 'surveyInput',
               title: 'Input Field 2',
               props: {

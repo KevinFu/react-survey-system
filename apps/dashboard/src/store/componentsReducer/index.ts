@@ -26,7 +26,7 @@ interface ComponentActions {
 
 export type ComponentStore = ComponentListStore & ComponentActions
 
-export const componentsStore = create<ComponentStore>((set) => ({
+export const useComponentStore = create<ComponentStore>((set) => ({
   components: INIT_STATE,
 
   resetComponents: (components: ComponentStateType) => {
@@ -34,4 +34,4 @@ export const componentsStore = create<ComponentStore>((set) => ({
   },
 }))
 
-export default componentsStore
+export default useComponentStore
