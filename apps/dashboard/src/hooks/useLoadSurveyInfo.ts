@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 import { useRequest } from 'ahooks'
 import { useParams } from 'react-router-dom'
 import { getSurveyService } from '../services/survey'
-import useComponentStore from '../store/componentsReducer'
+import ComponentsStore from '../store/componentsReducer'
 
 const useLoadSurveyInfo = () => {
   const { id = '' } = useParams()
-  const resetComponents = useComponentStore((state) => state.resetComponents)
+  const resetComponents = ComponentsStore((state) => state.resetComponents)
 
   const { data, loading, error, run } = useRequest(
     async (id: string) => {
@@ -28,7 +28,7 @@ const useLoadSurveyInfo = () => {
     if (!data) return
 
     const { componentList } = data
-    resetComponents({ componentList })
+    resetComponents({ componentList, selectedId: '' })
   }, [data, resetComponents])
 
   return { loading, error }

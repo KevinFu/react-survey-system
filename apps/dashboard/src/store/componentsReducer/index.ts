@@ -9,10 +9,12 @@ export type ComponentInfoType = {
 }
 
 export type ComponentStateType = {
+  selectedId: string
   componentList: ComponentInfoType[]
 }
 
 const INIT_STATE: ComponentStateType = {
+  selectedId: '',
   componentList: [],
 }
 
@@ -22,16 +24,23 @@ interface ComponentListStore {
 
 interface ComponentActions {
   resetComponents: (components: ComponentStateType) => void
+  changeSelectedId: (fe_id: string) => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
 
-export const useComponentStore = create<ComponentStore>((set) => ({
+export const ComponentsStore = create<ComponentStore>((set) => ({
   components: INIT_STATE,
 
   resetComponents: (components: ComponentStateType) => {
     set({ components })
   },
+
+  changeSelectedId: (fe_id: string) => {
+    set((state) => ({
+      components: { ...state.components, selectedId: fe_id },
+    }))
+  },
 }))
 
-export default useComponentStore
+export default ComponentsStore

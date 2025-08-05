@@ -2,9 +2,9 @@ import useComponentStore from '../store/componentsReducer'
 
 const useGetComponentInfo = () => {
   const components = useComponentStore((state) => state.components)
-  const { componentList } = components
+  const { componentList, selectedId } = components
 
-  return { componentList }
+  return { componentList, selectedId }
 }
 
 export default useGetComponentInfo

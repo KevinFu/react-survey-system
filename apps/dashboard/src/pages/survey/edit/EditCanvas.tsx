@@ -1,8 +1,10 @@
-import { type FC } from 'react'
+import type { FC, MouseEvent } from 'react'
 import { Spin } from 'antd'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 import { getComponentConfByType } from '../../../components/SurveyComponents'
-import { type ComponentInfoType } from '../../../store/componentsReducer'
+import ComponentsStore, {
+  type ComponentInfoType,
+} from '../../../store/componentsReducer'
 
 interface PropsType {
   loading: boolean
@@ -20,9 +22,13 @@ function genComponent(componentInfo: ComponentInfoType) {
 }
 
 const EditCanvas: FC<PropsType> = ({ loading }) => {
-  const { componentList } = useGetComponentInfo()
+  const { componentList, selectedId } = useGetComponentInfo()
+  const changeSelectedId = ComponentsStore((state) => state.changeSelectedId)
 
-  console.log('componentList', componentList)
+  function handleClick(e: MouseEvent, fe_id: string) {
+    e.stopPropagation()
+    changeSelectedId(fe_id)
+  }
 
   if (loading)
     return (
@@ -38,7 +44,8 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
         return (
           <div
             key={fe_id}
-            className="m-[12px] p-[12px] border rounded-lg border-solid border-white hover:border-blue-300"
+            className={`m-[12px] p-[12px] border rounded-lg border-solid border-white hover:border-[#d9d9d9] ${fe_id === selectedId && '!border-blue-300'}`}
+            onClick={(e: MouseEvent) => handleClick(e, fe_id)}
           >
             <div className="pointer-events-none">{genComponent(c)}</div>
           </div>
