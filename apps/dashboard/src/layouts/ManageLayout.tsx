@@ -7,7 +7,7 @@ import {
   StarOutlined,
   DeleteOutlined,
 } from '@ant-design/icons'
-import { createSurvey } from '../services/survey'
+import { createSurveyService } from '../services/survey'
 
 const { Sider, Content } = Layout
 
@@ -25,7 +25,7 @@ const ManageLayout: FC = () => {
   const onCreate = async () => {
     try {
       setLoading(true)
-      const { id } = (await createSurvey()) || {}
+      const { id } = (await createSurveyService()) || {}
       if (id) nav(`/survey/edit/${id}`)
     } finally {
       setLoading(false)

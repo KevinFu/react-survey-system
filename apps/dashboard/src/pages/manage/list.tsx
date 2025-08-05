@@ -4,7 +4,7 @@ import { Empty, Spin } from 'antd'
 import { useDebounceFn, useRequest, useTitle } from 'ahooks'
 import SurveyCard from '../../components/SurveyCard'
 import ListSearch from '../../components/ListSearch'
-import { getSurveyList } from '../../services/survey'
+import { getSurveyListService } from '../../services/survey'
 import { LIST_DEFAULT_PAGE_SIZE, LIST_SEARCH_PARAM_KEY } from '../../constant'
 
 const SurveyList: FC = () => {
@@ -23,7 +23,7 @@ const SurveyList: FC = () => {
 
   const { run: load, loading } = useRequest(
     async () => {
-      const data = await getSurveyList({
+      const data = await getSurveyListService({
         page,
         pageSize: LIST_DEFAULT_PAGE_SIZE,
         keyword,

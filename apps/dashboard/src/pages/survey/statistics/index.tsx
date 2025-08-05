@@ -1,13 +1,13 @@
 import { type FC } from 'react'
-import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
+// import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
 
 const Statistics: FC = () => {
-  const { loading, surveyInfo } = useLoadSurveyInfo()
+  // const { loading } = useLoadSurveyInfo()
 
   return (
     <>
       <div>Statistics Page</div>
-      {loading ? 'loading' : JSON.stringify(surveyInfo)}
+      {/* {loading ? 'loading' : JSON.stringify(surveyInfo)} */}
     </>
   )
 }

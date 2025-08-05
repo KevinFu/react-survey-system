@@ -8,19 +8,19 @@ interface SearchOptions {
   pageSize: number
 }
 
-export async function getSurvey(id: string): Promise<ResDataType> {
+export async function getSurveyService(id: string): Promise<ResDataType> {
   const url = `/api/survey/${id}`
   const data = (await axios.get(url)) as ResDataType
   return data
 }
 
-export async function createSurvey(): Promise<ResDataType> {
+export async function createSurveyService(): Promise<ResDataType> {
   const url = '/api/survey'
   const data = (await axios.post(url)) as ResDataType
   return data
 }
 
-export async function getSurveyList(
+export async function getSurveyListService(
   opt: Partial<SearchOptions> = {},
 ): Promise<ResDataType> {
   const url = '/api/survey'

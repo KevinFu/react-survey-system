@@ -26,7 +26,39 @@ export default [
         code: 0,
         data: Mock.mock({
           id: Random.id(),
-          name: '@name',
+          componentList: [
+            // Title
+            {
+              id: Random.id(),
+              type: 'surveyTitle',
+              title: 'Title',
+              props: {
+                text: 'Personal Information Survey',
+                level: 1,
+                isCenter: false,
+              },
+            },
+            // Input field 1
+            {
+              id: Random.id(),
+              type: 'surveyInput',
+              title: 'Input Field 1',
+              props: {
+                title: 'Your Name',
+                placeholder: 'Please enter your name...',
+              },
+            },
+            // Input field 2
+            {
+              id: Random.id(),
+              type: 'surveyInput',
+              title: 'Input Field 2',
+              props: {
+                title: 'Your Phone',
+                placeholder: 'Please enter your phone number...',
+              },
+            },
+          ],
         }),
       }
     },

@@ -1,6 +1,6 @@
 import { useRequest } from 'ahooks'
 import { useSearchParams } from 'react-router-dom'
-import { getSurveyList } from '../services/survey'
+import { getSurveyListService } from '../services/survey'
 import {
   LIST_SEARCH_PARAM_KEY,
   LIST_PAGE_PARAM_KEY,
@@ -22,7 +22,7 @@ const useLoadSurveyList = (opt: Partial<SearchParams> = {}) => {
     LIST_DEFAULT_PAGE_SIZE
 
   const { data, error, loading, refresh } = useRequest(
-    () => getSurveyList({ keyword, isStar, isDeleted, page, pageSize }),
+    () => getSurveyListService({ keyword, isStar, isDeleted, page, pageSize }),
     {
       refreshDeps: [keyword, page, pageSize],
     },

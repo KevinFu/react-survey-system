@@ -1,9 +1,9 @@
 import { type FC } from 'react'
 import EditCanvas from './EditCanvas'
-// import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
+import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
 
 const Edit: FC = () => {
-  // const { loading, surveyInfo } = useLoadSurveyInfo()
+  const { loading } = useLoadSurveyInfo()
 
   return (
     <div className="flex flex-col h-screen bg-[#f0f2f5]">
@@ -13,7 +13,7 @@ const Edit: FC = () => {
           <div className="w-[285px] px-[12px] bg-[#fff]">Left</div>
           <div className="flex-1 overflow-hidden relative">
             <div className="absolute w-[400px] h-[712px] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] overflow-auto shadow-[0_2px_10px_#0000001f]">
-              <EditCanvas />
+              <EditCanvas loading={loading} />
             </div>
           </div>
           <div className="w-[300px] px-[12px] bg-[#fff]">Right</div>
