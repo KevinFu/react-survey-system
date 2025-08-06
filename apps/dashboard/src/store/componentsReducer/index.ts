@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { immer } from 'zustand/middleware/immer'
 import { getNextSelectedId } from './util'
 import type { ComponentPropsType } from '../../components/SurveyComponents'
 
@@ -37,151 +38,93 @@ interface ComponentActions {
 
 export type ComponentStore = ComponentListStore & ComponentActions
 
-export const ComponentsStore = create<ComponentStore>((set) => ({
-  components: INIT_STATE,
+export const ComponentsStore = create<ComponentStore>()(
+  immer((set) => ({
+    components: INIT_STATE,
+    resetComponents: (components) => {
+      set({ components })
+    },
 
-  resetComponents: (components) => {
-    set({ components })
-  },
+    changeSelectedId: (fe_id) => {
+      set((state) => {
+        state.components.selectedId = fe_id
+      })
+    },
 
-  changeSelectedId: (fe_id) => {
-    set((state) => ({
-      components: { ...state.components, selectedId: fe_id },
-    }))
-  },
+    addComponent: (newComponent) => {
+      set((state) => {
+        const { selectedId, componentList } = state.components
+        const index = componentList.findIndex((c) => c.fe_id === selectedId)
 
-  addComponent: (newComponent) => {
-    set((state) => {
-      const { selectedId, componentList } = state.components
-      const index = componentList.findIndex((c) => c.fe_id === selectedId)
+        if (index === -1) {
+          componentList.push(newComponent)
+        } else {
+          componentList.splice(index + 1, 0, newComponent)
+        }
+        state.components.selectedId = newComponent.fe_id
+      })
+    },
 
-      const newComponentList =
-        index === -1
-          ? [...componentList, newComponent]
-          : [
-              ...componentList.slice(0, index + 1),
-              newComponent,
-              ...componentList.slice(index + 1),
-            ]
+    changeComponentProps: (fe_id, newProps) => {
+      set((state) => {
+        const { componentList } = state.components
+        const index = componentList.findIndex((c) => c.fe_id === fe_id)
 
-      return {
-        components: {
-          componentList: newComponentList,
-          selectedId: newComponent.fe_id,
-        },
-      }
-    })
-  },
+        if (index === -1) {
+          return
+        }
 
-  changeComponentProps: (fe_id, newProps) => {
-    set((state) => {
-      const { componentList } = state.components
-      const index = componentList.findIndex((c) => c.fe_id === fe_id)
+        const curComponent = componentList[index]
 
-      if (index === -1) {
-        return state
-      }
+        curComponent.props = { ...curComponent.props, ...newProps }
+      })
+    },
 
-      const curComponent = componentList[index]
-      const updatedComponent = {
-        ...curComponent,
-        props: {
-          ...curComponent.props,
-          ...newProps,
-        },
-      }
+    removeSelectedComponent: () => {
+      set((state) => {
+        const { componentList, selectedId } = state.components
+        const newSelectedId = getNextSelectedId(selectedId, componentList)
 
-      const newComponentList = [
-        ...componentList.slice(0, index),
-        updatedComponent,
-        ...componentList.slice(index + 1),
-      ]
+        state.components.componentList = componentList.filter(
+          (c) => c.fe_id !== selectedId,
+        )
+        state.components.selectedId = newSelectedId
+      })
+    },
 
-      return {
-        components: {
-          ...state.components,
-          componentList: newComponentList,
-        },
-      }
-    })
-  },
+    changeComponentHidden: (fe_id, isHidden) => {
+      set((state) => {
+        const { componentList, selectedId } = state.components
+        const index = componentList.findIndex((c) => c.fe_id === fe_id)
 
-  removeSelectedComponent: () => {
-    set((state) => {
-      const { componentList, selectedId } = state.components
-      const index = componentList.findIndex((c) => c.fe_id === selectedId)
+        if (index === -1) {
+          return
+        }
 
-      const newComponentList = [
-        ...componentList.slice(0, index),
-        ...componentList.slice(index + 1),
-      ]
-      const newSelectedId = getNextSelectedId(selectedId, componentList)
-      return {
-        components: {
-          selectedId: newSelectedId,
-          componentList: newComponentList,
-        },
-      }
-    })
-  },
+        const newSelectedId = isHidden
+          ? getNextSelectedId(selectedId, componentList)
+          : fe_id
+        const curComponent = componentList[index]
 
-  changeComponentHidden: (fe_id, isHidden) => {
-    set((state) => {
-      const { componentList, selectedId } = state.components
-      const index = componentList.findIndex((c) => c.fe_id === fe_id)
+        curComponent.isHidden = isHidden
+        state.components.selectedId = newSelectedId
+      })
+    },
 
-      if (index === -1) {
-        return state
-      }
+    toggleComponentLocked: (fe_id) => {
+      set((state) => {
+        const { componentList } = state.components
+        const index = componentList.findIndex((c) => c.fe_id === fe_id)
 
-      const curComponent = componentList[index]
-      const updatedComponent = { ...curComponent, isHidden }
+        if (index === -1) {
+          return
+        }
 
-      const newSelectedId = isHidden
-        ? getNextSelectedId(selectedId, componentList)
-        : fe_id
-      const newComponentList = [
-        ...componentList.slice(0, index),
-        updatedComponent,
-        ...componentList.slice(index + 1),
-      ]
-      return {
-        components: {
-          selectedId: newSelectedId,
-          componentList: newComponentList,
-        },
-      }
-    })
-  },
-
-  toggleComponentLocked: (fe_id) => {
-    set((state) => {
-      const { componentList } = state.components
-      const index = componentList.findIndex((c) => c.fe_id === fe_id)
-
-      if (index === -1) {
-        return state
-      }
-
-      const curComponent = componentList[index]
-      const updatedComponent = {
-        ...curComponent,
-        isLocked: !curComponent.isLocked,
-      }
-
-      const newComponentList = [
-        ...componentList.slice(0, index),
-        updatedComponent,
-        ...componentList.slice(index + 1),
-      ]
-      return {
-        components: {
-          ...state.components,
-          componentList: newComponentList,
-        },
-      }
-    })
-  },
-}))
+        const curComponent = componentList[index]
+        curComponent.isLocked = !curComponent.isLocked
+      })
+    },
+  })),
+)
 
 export default ComponentsStore
