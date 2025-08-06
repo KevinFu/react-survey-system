@@ -33,6 +33,7 @@ export default [
               type: 'surveyTitle',
               title: 'Title',
               isHidden: false,
+              isLocked: false,
               props: {
                 text: 'Personal Information Survey',
                 level: 1,
@@ -45,6 +46,7 @@ export default [
               type: 'surveyInput',
               title: 'Input Field 1',
               isHidden: false,
+              isLocked: false,
               props: {
                 title: 'Your Name',
                 placeholder: 'Please enter your name...',
@@ -56,6 +58,7 @@ export default [
               type: 'surveyInput',
               title: 'Input Field 2',
               isHidden: false,
+              isLocked: false,
               props: {
                 title: 'Your Phone',
                 placeholder: 'Please enter your phone number...',

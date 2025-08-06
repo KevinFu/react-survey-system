@@ -1,17 +1,25 @@
 import { type FC } from 'react'
 import { Button, Space, Tooltip } from 'antd'
-import { DeleteOutlined, EyeInvisibleOutlined } from '@ant-design/icons'
+import {
+  DeleteOutlined,
+  EyeInvisibleOutlined,
+  LockOutlined,
+} from '@ant-design/icons'
 import ComponentsStore from '../../../store/componentsReducer'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 
 const EditToolbar: FC = () => {
-  const { selectedId } = useGetComponentInfo()
+  const { selectedId, selectedComponent } = useGetComponentInfo()
+  const { isLocked } = selectedComponent || {}
 
   const removeSelectedComponent = ComponentsStore(
     (state) => state.removeSelectedComponent,
   )
   const changeComponentHidden = ComponentsStore(
     (state) => state.changeComponentHidden,
+  )
+  const toggleComponentLocked = ComponentsStore(
+    (state) => state.toggleComponentLocked,
   )
 
   function handleDelete() {
@@ -20,6 +28,10 @@ const EditToolbar: FC = () => {
 
   function handleHidden() {
     changeComponentHidden(selectedId, true)
+  }
+
+  function handleLock() {
+    toggleComponentLocked(selectedId)
   }
 
   return (
@@ -36,6 +48,14 @@ const EditToolbar: FC = () => {
           shape="circle"
           onClick={handleHidden}
           icon={<EyeInvisibleOutlined />}
+        />
+      </Tooltip>
+      <Tooltip title="Lock">
+        <Button
+          shape="circle"
+          onClick={handleLock}
+          icon={<LockOutlined />}
+          type={isLocked ? 'primary' : 'default'}
         />
       </Tooltip>
     </Space>

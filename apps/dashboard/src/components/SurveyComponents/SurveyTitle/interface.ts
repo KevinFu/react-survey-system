@@ -3,6 +3,7 @@ export interface SurveyTitlePropsType {
   level?: 1 | 2 | 3
   isCenter?: boolean
   onChange?: (newProps: SurveyTitlePropsType) => void
+  disabled?: boolean
 }
 
 export const SurveyTitleDefaultProps: SurveyTitlePropsType = {

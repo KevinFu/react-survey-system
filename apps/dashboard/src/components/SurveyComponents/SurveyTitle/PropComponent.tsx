@@ -3,7 +3,7 @@ import { Checkbox, Form, Input, Select } from 'antd'
 import { type SurveyTitlePropsType } from './interface'
 
 const PropComponent: FC<SurveyTitlePropsType> = (props) => {
-  const { text, level, isCenter, onChange } = props
+  const { text, level, isCenter, onChange, disabled } = props
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -18,6 +18,7 @@ const PropComponent: FC<SurveyTitlePropsType> = (props) => {
     <Form
       form={form}
       layout="vertical"
+      disabled={disabled}
       onValuesChange={handleChange}
       initialValues={{ text, level, isCenter }}
     >

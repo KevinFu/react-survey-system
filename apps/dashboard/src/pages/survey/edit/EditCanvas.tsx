@@ -42,11 +42,11 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
       {componentList
         .filter((c) => !c.isHidden)
         .map((c) => {
-          const { fe_id } = c
+          const { fe_id, isLocked } = c
           return (
             <div
               key={fe_id}
-              className={`m-[12px] p-[12px] border rounded-lg border-solid border-white hover:border-[#d9d9d9] ${fe_id === selectedId && '!border-blue-300'}`}
+              className={`m-[12px] p-[12px] border rounded-lg border-solid border-white hover:border-[#d9d9d9] ${fe_id === selectedId && '!border-blue-300'} ${isLocked && 'opacity-50 cursor-not-allowed'}`}
               onClick={(e: MouseEvent) => handleClick(e, fe_id)}
             >
               <div className="pointer-events-none">{genComponent(c)}</div>

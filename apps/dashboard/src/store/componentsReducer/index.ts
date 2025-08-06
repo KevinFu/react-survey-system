@@ -7,6 +7,7 @@ export type ComponentInfoType = {
   type: string
   title: string
   isHidden: boolean
+  isLocked: boolean
   props: ComponentPropsType
 }
 
@@ -31,6 +32,7 @@ interface ComponentActions {
   changeComponentProps: (fe_id: string, newProps: ComponentPropsType) => void
   removeSelectedComponent: () => void
   changeComponentHidden: (fe_id: string, isHidden: boolean) => void
+  toggleComponentLocked: (fe_id: string) => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
@@ -146,6 +148,35 @@ export const ComponentsStore = create<ComponentStore>((set) => ({
       return {
         components: {
           selectedId: newSelectedId,
+          componentList: newComponentList,
+        },
+      }
+    })
+  },
+
+  toggleComponentLocked: (fe_id) => {
+    set((state) => {
+      const { componentList } = state.components
+      const index = componentList.findIndex((c) => c.fe_id === fe_id)
+
+      if (index === -1) {
+        return state
+      }
+
+      const curComponent = componentList[index]
+      const updatedComponent = {
+        ...curComponent,
+        isLocked: !curComponent.isLocked,
+      }
+
+      const newComponentList = [
+        ...componentList.slice(0, index),
+        updatedComponent,
+        ...componentList.slice(index + 1),
+      ]
+      return {
+        components: {
+          ...state.components,
           componentList: newComponentList,
         },
       }
