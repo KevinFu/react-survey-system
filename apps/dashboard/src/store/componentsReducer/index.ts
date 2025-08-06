@@ -40,6 +40,8 @@ interface ComponentActions {
   toggleComponentLocked: (fe_id: string) => void
   copyComponent: () => void
   pasteCopiedComponent: () => void
+  selectPrevComponent: () => void
+  selectNextComponent: () => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
@@ -141,6 +143,32 @@ export const ComponentsStore = create<ComponentStore>()(
 
         copiedComponent.fe_id = nanoid()
         insertNewComponent(state.components, copiedComponent)
+      })
+    },
+
+    selectPrevComponent: () => {
+      set((state) => {
+        const { selectedId, componentList } = state.components
+        const selectedIndex = componentList.findIndex(
+          (c) => c.fe_id === selectedId,
+        )
+
+        if (selectedIndex <= 0) return
+        state.components.selectedId = componentList[selectedIndex - 1].fe_id
+      })
+    },
+
+    selectNextComponent: () => {
+      set((state) => {
+        const { selectedId, componentList } = state.components
+        const length = componentList.length
+        const selectedIndex = componentList.findIndex(
+          (c) => c.fe_id === selectedId,
+        )
+
+        if (selectedIndex < 0 || selectedIndex === length - 1) return
+
+        state.components.selectedId = componentList[selectedIndex + 1].fe_id
       })
     },
   })),

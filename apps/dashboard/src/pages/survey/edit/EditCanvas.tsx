@@ -5,6 +5,7 @@ import { getComponentConfByType } from '../../../components/SurveyComponents'
 import ComponentsStore, {
   type ComponentInfoType,
 } from '../../../store/componentsReducer'
+import useCanvasKeyPress from '../../../hooks/useCanvasKeyPress'
 
 interface PropsType {
   loading: boolean
@@ -24,6 +25,8 @@ function genComponent(componentInfo: ComponentInfoType) {
 const EditCanvas: FC<PropsType> = ({ loading }) => {
   const { componentList, selectedId } = useGetComponentInfo()
   const changeSelectedId = ComponentsStore((state) => state.changeSelectedId)
+
+  useCanvasKeyPress()
 
   function handleClick(e: MouseEvent, fe_id: string) {
     e.stopPropagation()
