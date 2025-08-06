@@ -8,12 +8,14 @@ import SurveyParagraphConfType, {
   type SurveyParagraphPropsType,
 } from './SurveyParagraph'
 import SurveyInfoConfType, { type SurveyInfoPropsType } from './SurveyInfo'
+import SurveyRadioConfType, { type SurveyRadioPropsType } from './SurveyRadio'
 
 export type ComponentPropsType = SurveyInputPropsType &
   SurveyTextareaPropsType &
   SurveyTitlePropsType &
   SurveyParagraphPropsType &
-  SurveyInfoPropsType
+  SurveyInfoPropsType &
+  SurveyRadioPropsType
 
 export type ComponentConfType = {
   title: string
@@ -29,6 +31,7 @@ const componentConfList: ComponentConfType[] = [
   SurveyTitleConfType,
   SurveyParagraphConfType,
   SurveyInfoConfType,
+  SurveyRadioConfType,
 ]
 
 export const componentConfGroup = [
@@ -43,6 +46,11 @@ export const componentConfGroup = [
   {
     groupName: 'User Input',
     components: [SurveyInputConfType, SurveyTextareaConfType],
+  },
+
+  {
+    groupName: 'Choose Group',
+    components: [SurveyRadioConfType],
   },
 ]
 

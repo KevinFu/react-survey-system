@@ -9,7 +9,7 @@ const { Title } = Typography
 const EditHeader: FC = () => {
   const nav = useNavigate()
   return (
-    <div className="bg-[#fff] p-[12px] border-solid border-b-[#e8e8e8]">
+    <div className="bg-[#fff] p-[12px] border-x-0 border-t-0 border-solid border-b-[#e8e8e8]">
       <div className="flex mx-[24px]">
         <div className="flex-1">
           <Space>

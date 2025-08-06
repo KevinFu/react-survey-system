@@ -20,7 +20,7 @@ const Edit: FC = () => {
       <EditHeader />
       <div className="flex-auto flex-row py-[12px]">
         <div className="flex h-[100%] mx-[24px]">
-          <div className="w-[285px] px-[12px] bg-[#fff]">
+          <div className="w-[330px] px-[12px] bg-[#fff]">
             <LeftPanel />
           </div>
           <div
