@@ -19,16 +19,16 @@ function genComponent(c: ComponentConfType) {
       title,
       type,
       props: defaultProps,
+      isHidden: false,
+      isLocked: false,
     })
   }
-
-  console.log(type)
 
   return (
     <div
       key={type}
       onClick={handleClick}
-      className={`m-[12px] p-[12px] border rounded-lg border-solid border-white hover:border-[#d9d9d9] `}
+      className={`my-[12px] p-[12px] bg-gray-100 border rounded-lg border-solid border-white hover:border-[#d9d9d9] `}
     >
       <div className="pointer-events-none">
         <Component />
