@@ -4,10 +4,12 @@ import SurveyTitleConfType, { type SurveyTitlePropsType } from './SurveyTitle'
 import SurveyParagraphConfType, {
   type SurveyParagraphPropsType,
 } from './SurveyParagraph'
+import SurveyInfoConfType, { type SurveyInfoPropsType } from './SurveyInfo'
 
 export type ComponentPropsType = SurveyInputPropsType &
   SurveyTitlePropsType &
-  SurveyParagraphPropsType
+  SurveyParagraphPropsType &
+  SurveyInfoPropsType
 
 export type ComponentConfType = {
   title: string
@@ -21,12 +23,17 @@ const componentConfList: ComponentConfType[] = [
   SurveyInputConfType,
   SurveyTitleConfType,
   SurveyParagraphConfType,
+  SurveyInfoConfType,
 ]
 
 export const componentConfGroup = [
   {
     groupName: 'Text Display',
-    components: [SurveyTitleConfType, SurveyParagraphConfType],
+    components: [
+      SurveyTitleConfType,
+      SurveyParagraphConfType,
+      SurveyInfoConfType,
+    ],
   },
   {
     groupName: 'User Input',
