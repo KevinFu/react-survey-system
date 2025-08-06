@@ -9,13 +9,17 @@ import SurveyParagraphConfType, {
 } from './SurveyParagraph'
 import SurveyInfoConfType, { type SurveyInfoPropsType } from './SurveyInfo'
 import SurveyRadioConfType, { type SurveyRadioPropsType } from './SurveyRadio'
+import SurveyCheckboxConfType, {
+  type SurveyCheckboxPropsType,
+} from './SurveyCheckbox'
 
 export type ComponentPropsType = SurveyInputPropsType &
   SurveyTextareaPropsType &
   SurveyTitlePropsType &
   SurveyParagraphPropsType &
   SurveyInfoPropsType &
-  SurveyRadioPropsType
+  SurveyRadioPropsType &
+  SurveyCheckboxPropsType
 
 export type ComponentConfType = {
   title: string
@@ -32,6 +36,7 @@ const componentConfList: ComponentConfType[] = [
   SurveyParagraphConfType,
   SurveyInfoConfType,
   SurveyRadioConfType,
+  SurveyCheckboxConfType,
 ]
 
 export const componentConfGroup = [
@@ -50,7 +55,7 @@ export const componentConfGroup = [
 
   {
     groupName: 'Choose Group',
-    components: [SurveyRadioConfType],
+    components: [SurveyRadioConfType, SurveyCheckboxConfType],
   },
 ]
 
