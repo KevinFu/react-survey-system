@@ -2,7 +2,7 @@ import { useEffect, useState, type FC } from 'react'
 import { Link } from 'react-router-dom'
 import { EditOutlined } from '@ant-design/icons'
 import { HOME_PATHNAME, MANAGE_LIST_PATHNAME } from '../routers'
-import useUserStore from '../store/userReducer'
+import useUserStore from '../store/user'
 
 const Logo: FC = () => {
   const isLoggedIn = useUserStore((state) => state.isLoggedIn)
