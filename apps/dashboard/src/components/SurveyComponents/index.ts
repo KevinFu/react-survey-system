@@ -1,5 +1,8 @@
 import type { FC } from 'react'
 import SurveyInputConfType, { type SurveyInputPropsType } from './SurveyInput'
+import SurveyTextareaConfType, {
+  type SurveyTextareaPropsType,
+} from './SurveyTextarea'
 import SurveyTitleConfType, { type SurveyTitlePropsType } from './SurveyTitle'
 import SurveyParagraphConfType, {
   type SurveyParagraphPropsType,
@@ -7,6 +10,7 @@ import SurveyParagraphConfType, {
 import SurveyInfoConfType, { type SurveyInfoPropsType } from './SurveyInfo'
 
 export type ComponentPropsType = SurveyInputPropsType &
+  SurveyTextareaPropsType &
   SurveyTitlePropsType &
   SurveyParagraphPropsType &
   SurveyInfoPropsType
@@ -21,6 +25,7 @@ export type ComponentConfType = {
 
 const componentConfList: ComponentConfType[] = [
   SurveyInputConfType,
+  SurveyTextareaConfType,
   SurveyTitleConfType,
   SurveyParagraphConfType,
   SurveyInfoConfType,
@@ -37,7 +42,7 @@ export const componentConfGroup = [
   },
   {
     groupName: 'User Input',
-    components: [SurveyInputConfType],
+    components: [SurveyInputConfType, SurveyTextareaConfType],
   },
 ]
 
