@@ -2,8 +2,12 @@ import { type FC } from 'react'
 import { Tabs } from 'antd'
 import { FileTextOutlined, SettingOutlined } from '@ant-design/icons'
 import ComponentProp from './ComponentProp'
+import PageSetting from './PageSetting'
+import ComponentsStore from '../../../store/componentsReducer'
 
 const RightPanel: FC = () => {
+  const { selectedId } = ComponentsStore((state) => state.components)
+
   const tabsItems = [
     {
       key: 'props',
@@ -23,11 +27,11 @@ const RightPanel: FC = () => {
           Page Setting
         </span>
       ),
-      children: <>Page setting</>,
+      children: <PageSetting />,
     },
   ]
 
-  return <Tabs items={tabsItems} defaultActiveKey="props" />
+  return <Tabs items={tabsItems} activeKey={selectedId ? 'props' : 'setting'} />
 }
 
 export default RightPanel
