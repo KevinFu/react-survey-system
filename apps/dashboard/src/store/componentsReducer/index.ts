@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
-import { getNextSelectedId } from './util'
+import cloneDeep from 'lodash.clonedeep'
+import { nanoid } from 'nanoid'
+import { getNextSelectedId, insertNewComponent } from './util'
 import type { ComponentPropsType } from '../../components/SurveyComponents'
 
 export type ComponentInfoType = {
@@ -15,11 +17,13 @@ export type ComponentInfoType = {
 export type ComponentStateType = {
   selectedId: string
   componentList: ComponentInfoType[]
+  copiedComponent: ComponentInfoType | null
 }
 
 const INIT_STATE: ComponentStateType = {
   selectedId: '',
   componentList: [],
+  copiedComponent: null,
 }
 
 interface ComponentListStore {
@@ -34,6 +38,8 @@ interface ComponentActions {
   removeSelectedComponent: () => void
   changeComponentHidden: (fe_id: string, isHidden: boolean) => void
   toggleComponentLocked: (fe_id: string) => void
+  copyComponent: () => void
+  pasteCopiedComponent: () => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
@@ -53,15 +59,7 @@ export const ComponentsStore = create<ComponentStore>()(
 
     addComponent: (newComponent) => {
       set((state) => {
-        const { selectedId, componentList } = state.components
-        const index = componentList.findIndex((c) => c.fe_id === selectedId)
-
-        if (index === -1) {
-          componentList.push(newComponent)
-        } else {
-          componentList.splice(index + 1, 0, newComponent)
-        }
-        state.components.selectedId = newComponent.fe_id
+        insertNewComponent(state.components, newComponent)
       })
     },
 
@@ -122,6 +120,27 @@ export const ComponentsStore = create<ComponentStore>()(
 
         const curComponent = componentList[index]
         curComponent.isLocked = !curComponent.isLocked
+      })
+    },
+
+    copyComponent: () => {
+      set((state) => {
+        const { selectedId, componentList } = state.components
+        const curComponent = componentList.find((c) => c.fe_id === selectedId)
+        if (!curComponent) return
+
+        state.components.copiedComponent = cloneDeep(curComponent)
+      })
+    },
+
+    pasteCopiedComponent: () => {
+      set((state) => {
+        const { copiedComponent } = state.components
+
+        if (copiedComponent === null) return
+
+        copiedComponent.fe_id = nanoid()
+        insertNewComponent(state.components, copiedComponent)
       })
     },
   })),

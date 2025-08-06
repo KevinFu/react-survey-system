@@ -30,7 +30,7 @@ const useLoadSurveyInfo = () => {
     const { componentList } = data
     const selectedId = componentList.length > 0 ? componentList[0].fe_id : ''
 
-    resetComponents({ componentList, selectedId })
+    resetComponents({ componentList, selectedId, copiedComponent: null })
   }, [data, resetComponents])
 
   return { loading, error }

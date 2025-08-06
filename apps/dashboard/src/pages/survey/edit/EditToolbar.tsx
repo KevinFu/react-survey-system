@@ -1,6 +1,8 @@
 import { type FC } from 'react'
 import { Button, Space, Tooltip } from 'antd'
 import {
+  BlockOutlined,
+  CopyOutlined,
   DeleteOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
@@ -9,7 +11,8 @@ import ComponentsStore from '../../../store/componentsReducer'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 
 const EditToolbar: FC = () => {
-  const { selectedId, selectedComponent } = useGetComponentInfo()
+  const { selectedId, selectedComponent, copiedComponent } =
+    useGetComponentInfo()
   const { isLocked } = selectedComponent || {}
 
   const removeSelectedComponent = ComponentsStore(
@@ -20,6 +23,10 @@ const EditToolbar: FC = () => {
   )
   const toggleComponentLocked = ComponentsStore(
     (state) => state.toggleComponentLocked,
+  )
+  const copyComponent = ComponentsStore((state) => state.copyComponent)
+  const pasteCopiedComponent = ComponentsStore(
+    (state) => state.pasteCopiedComponent,
   )
 
   function handleDelete() {
@@ -32,6 +39,14 @@ const EditToolbar: FC = () => {
 
   function handleLock() {
     toggleComponentLocked(selectedId)
+  }
+
+  function handleCopy() {
+    copyComponent()
+  }
+
+  function handlePaste() {
+    pasteCopiedComponent()
   }
 
   return (
@@ -56,6 +71,17 @@ const EditToolbar: FC = () => {
           onClick={handleLock}
           icon={<LockOutlined />}
           type={isLocked ? 'primary' : 'default'}
+        />
+      </Tooltip>
+      <Tooltip title="Copy">
+        <Button shape="circle" onClick={handleCopy} icon={<CopyOutlined />} />
+      </Tooltip>
+      <Tooltip title="Paste">
+        <Button
+          shape="circle"
+          onClick={handlePaste}
+          icon={<BlockOutlined />}
+          disabled={copiedComponent === null}
         />
       </Tooltip>
     </Space>
