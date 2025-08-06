@@ -32,6 +32,7 @@ export default [
               fe_id: Random.id(),
               type: 'surveyTitle',
               title: 'Title',
+              isHidden: false,
               props: {
                 text: 'Personal Information Survey',
                 level: 1,
@@ -43,6 +44,7 @@ export default [
               fe_id: Random.id(),
               type: 'surveyInput',
               title: 'Input Field 1',
+              isHidden: false,
               props: {
                 title: 'Your Name',
                 placeholder: 'Please enter your name...',
@@ -53,6 +55,7 @@ export default [
               fe_id: Random.id(),
               type: 'surveyInput',
               title: 'Input Field 2',
+              isHidden: false,
               props: {
                 title: 'Your Phone',
                 placeholder: 'Please enter your phone number...',

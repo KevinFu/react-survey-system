@@ -6,6 +6,7 @@ export type ComponentInfoType = {
   fe_id: string
   type: string
   title: string
+  isHidden: boolean
   props: ComponentPropsType
 }
 
@@ -29,6 +30,7 @@ interface ComponentActions {
   addComponent: (newComponent: ComponentInfoType) => void
   changeComponentProps: (fe_id: string, newProps: ComponentPropsType) => void
   removeSelectedComponent: () => void
+  changeComponentHidden: (fe_id: string, isHidden: boolean) => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
@@ -112,6 +114,35 @@ export const ComponentsStore = create<ComponentStore>((set) => ({
         ...componentList.slice(index + 1),
       ]
       const newSelectedId = getNextSelectedId(selectedId, componentList)
+      return {
+        components: {
+          selectedId: newSelectedId,
+          componentList: newComponentList,
+        },
+      }
+    })
+  },
+
+  changeComponentHidden: (fe_id, isHidden) => {
+    set((state) => {
+      const { componentList, selectedId } = state.components
+      const index = componentList.findIndex((c) => c.fe_id === fe_id)
+
+      if (index === -1) {
+        return state
+      }
+
+      const curComponent = componentList[index]
+      const updatedComponent = { ...curComponent, isHidden }
+
+      const newSelectedId = isHidden
+        ? getNextSelectedId(selectedId, componentList)
+        : fe_id
+      const newComponentList = [
+        ...componentList.slice(0, index),
+        updatedComponent,
+        ...componentList.slice(index + 1),
+      ]
       return {
         components: {
           selectedId: newSelectedId,
