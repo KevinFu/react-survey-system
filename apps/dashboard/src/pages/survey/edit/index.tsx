@@ -5,11 +5,11 @@ import LeftPanel from './LeftPanel'
 import RightPanel from './RightPanel'
 
 import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
-import ComponentsStore from '../../../store/componentsReducer'
+import useComponentStore from '../../../store/components'
 
 const Edit: FC = () => {
   const { loading } = useLoadSurveyInfo()
-  const changeSelectedId = ComponentsStore((state) => state.changeSelectedId)
+  const changeSelectedId = useComponentStore((state) => state.changeSelectedId)
 
   function clearSelectedId() {
     changeSelectedId('')

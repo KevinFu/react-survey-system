@@ -47,7 +47,7 @@ interface ComponentActions {
 
 export type ComponentStore = ComponentListStore & ComponentActions
 
-export const ComponentsStore = create<ComponentStore>()(
+export const useComponentStore = create<ComponentStore>()(
   immer((set) => ({
     components: INIT_STATE,
     resetComponents: (components) => {
@@ -190,4 +190,4 @@ export const ComponentsStore = create<ComponentStore>()(
   })),
 )
 
-export default ComponentsStore
+export default useComponentStore

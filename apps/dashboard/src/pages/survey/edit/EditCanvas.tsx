@@ -2,9 +2,9 @@ import type { FC, MouseEvent } from 'react'
 import { Spin } from 'antd'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 import { getComponentConfByType } from '../../../components/SurveyComponents'
-import ComponentsStore, {
+import useComponentStore, {
   type ComponentInfoType,
-} from '../../../store/componentsReducer'
+} from '../../../store/components'
 import useCanvasKeyPress from '../../../hooks/useCanvasKeyPress'
 
 interface PropsType {
@@ -24,7 +24,7 @@ function genComponent(componentInfo: ComponentInfoType) {
 
 const EditCanvas: FC<PropsType> = ({ loading }) => {
   const { componentList, selectedId } = useGetComponentInfo()
-  const changeSelectedId = ComponentsStore((state) => state.changeSelectedId)
+  const changeSelectedId = useComponentStore((state) => state.changeSelectedId)
 
   useCanvasKeyPress()
 

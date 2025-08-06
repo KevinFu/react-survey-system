@@ -3,10 +3,10 @@ import { Tabs } from 'antd'
 import { FileTextOutlined, SettingOutlined } from '@ant-design/icons'
 import ComponentProp from './ComponentProp'
 import PageSetting from './PageSetting'
-import ComponentsStore from '../../../store/componentsReducer'
+import useComponentStore from '../../../store/components'
 
 const RightPanel: FC = () => {
-  const { selectedId } = ComponentsStore((state) => state.components)
+  const { selectedId } = useComponentStore((state) => state.components)
 
   const tabsItems = [
     {

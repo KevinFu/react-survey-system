@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 import { useRequest } from 'ahooks'
 import { useParams } from 'react-router-dom'
 import { getSurveyService } from '../services/survey'
-import ComponentsStore from '../store/componentsReducer'
+import useComponentStore from '../store/components'
 import usePageInfoStore from '../store/pageInfo'
 
 const useLoadSurveyInfo = () => {
   const { id = '' } = useParams()
-  const resetComponents = ComponentsStore((state) => state.resetComponents)
+  const resetComponents = useComponentStore((state) => state.resetComponents)
   const resetPageInfo = usePageInfoStore((state) => state.resetPageInfo)
 
   const { data, loading, error, run } = useRequest(

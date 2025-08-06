@@ -1,4 +1,4 @@
-import useComponentStore from '../store/componentsReducer'
+import useComponentStore from '../store/components'
 
 const useGetComponentInfo = () => {
   const components = useComponentStore((state) => state.components)

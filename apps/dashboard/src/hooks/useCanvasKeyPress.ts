@@ -1,21 +1,21 @@
 import { useKeyPress } from 'ahooks'
-import ComponentsStore from '../store/componentsReducer'
+import useComponentStore from '../store/components'
 
 function isActiveElementValid() {
   return document.activeElement === document.body
 }
 const useCanvasKeyPress = () => {
-  const removeSelectedComponent = ComponentsStore(
+  const removeSelectedComponent = useComponentStore(
     (state) => state.removeSelectedComponent,
   )
-  const copyComponent = ComponentsStore((state) => state.copyComponent)
-  const pasteCopiedComponent = ComponentsStore(
+  const copyComponent = useComponentStore((state) => state.copyComponent)
+  const pasteCopiedComponent = useComponentStore(
     (state) => state.pasteCopiedComponent,
   )
-  const selectPrevComponent = ComponentsStore(
+  const selectPrevComponent = useComponentStore(
     (state) => state.selectPrevComponent,
   )
-  const selectNextComponent = ComponentsStore(
+  const selectNextComponent = useComponentStore(
     (state) => state.selectNextComponent,
   )
 

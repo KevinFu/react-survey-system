@@ -1,22 +1,22 @@
 import { useState, type ChangeEvent, type FC } from 'react'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 import { Button, Input, message, Space } from 'antd'
-import ComponentsStore from '../../../store/componentsReducer'
+import useComponentStore from '../../../store/components'
 import { EyeInvisibleOutlined, LockOutlined } from '@ant-design/icons'
 
 const Layers: FC = () => {
   const [changingTitleId, setChangingTitleId] = useState('')
 
   const { componentList, selectedId } = useGetComponentInfo()
-  const changeSelectedId = ComponentsStore((state) => state.changeSelectedId)
-  const changeComponentTitle = ComponentsStore(
+  const changeSelectedId = useComponentStore((state) => state.changeSelectedId)
+  const changeComponentTitle = useComponentStore(
     (state) => state.changeComponentTitle,
   )
-  const toggleComponentLocked = ComponentsStore(
+  const toggleComponentLocked = useComponentStore(
     (state) => state.toggleComponentLocked,
   )
 
-  const changeComponentHidden = ComponentsStore(
+  const changeComponentHidden = useComponentStore(
     (state) => state.changeComponentHidden,
   )
 

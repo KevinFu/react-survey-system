@@ -7,7 +7,7 @@ import {
   EyeInvisibleOutlined,
   LockOutlined,
 } from '@ant-design/icons'
-import ComponentsStore from '../../../store/componentsReducer'
+import useComponentStore from '../../../store/components'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 
 const EditToolbar: FC = () => {
@@ -15,17 +15,17 @@ const EditToolbar: FC = () => {
     useGetComponentInfo()
   const { isLocked } = selectedComponent || {}
 
-  const removeSelectedComponent = ComponentsStore(
+  const removeSelectedComponent = useComponentStore(
     (state) => state.removeSelectedComponent,
   )
-  const changeComponentHidden = ComponentsStore(
+  const changeComponentHidden = useComponentStore(
     (state) => state.changeComponentHidden,
   )
-  const toggleComponentLocked = ComponentsStore(
+  const toggleComponentLocked = useComponentStore(
     (state) => state.toggleComponentLocked,
   )
-  const copyComponent = ComponentsStore((state) => state.copyComponent)
-  const pasteCopiedComponent = ComponentsStore(
+  const copyComponent = useComponentStore((state) => state.copyComponent)
+  const pasteCopiedComponent = useComponentStore(
     (state) => state.pasteCopiedComponent,
   )
 

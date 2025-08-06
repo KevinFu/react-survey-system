@@ -6,12 +6,12 @@ import {
   componentConfGroup,
   type ComponentConfType,
 } from '../../../components/SurveyComponents'
-import ComponentsStore from '../../../store/componentsReducer'
+import useComponentStore from '../../../store/components'
 const { Title } = Typography
 
 function genComponent(c: ComponentConfType) {
   const { title, type, defaultProps, Component } = c
-  const addComponent = ComponentsStore((state) => state.addComponent)
+  const addComponent = useComponentStore((state) => state.addComponent)
 
   function handleClick() {
     addComponent({

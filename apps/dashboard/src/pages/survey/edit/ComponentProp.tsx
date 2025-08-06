@@ -4,14 +4,14 @@ import {
   getComponentConfByType,
   type ComponentPropsType,
 } from '../../../components/SurveyComponents'
-import ComponentsStore from '../../../store/componentsReducer'
+import useComponentStore from '../../../store/components'
 
 const NoProp = () => <div className="text-center">No Component Props</div>
 
 const ComponentProp: FC = () => {
   const { selectedComponent } = useGetComponentInfo()
 
-  const changeComponentProps = ComponentsStore(
+  const changeComponentProps = useComponentStore(
     (state) => state.changeComponentProps,
   )
 
