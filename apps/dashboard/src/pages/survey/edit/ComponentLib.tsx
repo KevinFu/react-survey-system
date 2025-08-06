@@ -39,7 +39,7 @@ function genComponent(c: ComponentConfType) {
 
 const ComponentLib: FC = () => {
   return (
-    <>
+    <div className="max-h-[680px] overflow-y-auto">
       {componentConfGroup.map((group, idx: number) => {
         const { groupName, components } = group
         return (
@@ -56,7 +56,7 @@ const ComponentLib: FC = () => {
           </div>
         )
       })}
-    </>
+    </div>
   )
 }
 
