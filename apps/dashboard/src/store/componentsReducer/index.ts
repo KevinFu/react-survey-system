@@ -42,6 +42,7 @@ interface ComponentActions {
   pasteCopiedComponent: () => void
   selectPrevComponent: () => void
   selectNextComponent: () => void
+  changeComponentTitle: (fe_id: string, newTitle: string) => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
@@ -169,6 +170,21 @@ export const ComponentsStore = create<ComponentStore>()(
         if (selectedIndex < 0 || selectedIndex === length - 1) return
 
         state.components.selectedId = componentList[selectedIndex + 1].fe_id
+      })
+    },
+
+    changeComponentTitle: (fe_id, newTitle) => {
+      set((state) => {
+        const { componentList } = state.components
+        const index = componentList.findIndex((c) => c.fe_id === fe_id)
+
+        if (index === -1) {
+          return
+        }
+
+        const curComponent = componentList[index]
+
+        if (curComponent) curComponent.title = newTitle
       })
     },
   })),
