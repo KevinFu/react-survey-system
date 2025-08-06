@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import useUserStore from '../store/useUserStore'
+import useUserStore from '../store/userReducer'
 import { useRequest } from 'ahooks'
 import { getUserInfoService } from '../services/user'
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import useUserStore from '../store/useUserStore'
+import useUserStore from '../store/userReducer'
 import {
   isLoginOrRegister,
   isNoNeedUserInfo,

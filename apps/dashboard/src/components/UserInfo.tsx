@@ -4,7 +4,7 @@ import { Button, message } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { useShallow } from 'zustand/shallow'
 
-import useUserStore from '../store/useUserStore'
+import useUserStore from '../store/userReducer'
 import { removeUserToken } from '../utils/token'
 import { LOGIN_PATHNAME } from '../routers'
 
