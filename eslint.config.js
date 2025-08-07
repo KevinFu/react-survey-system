@@ -7,6 +7,7 @@ export default [
   {
     ignores: [
       '**/.turbo/**',
+      '**/.next/**',
       '**/node_modules/**',
       '**/dist/**',
       '**/build/**',
@@ -47,6 +48,14 @@ export default [
         require: 'readonly',
         __dirname: 'readonly',
         __filename: 'readonly',
+      },
+    },
+  },
+  {
+    files: ['apps/portal/**/*.ts', 'apps/portal/**/*.tsx'],
+    languageOptions: {
+      parserOptions: {
+        project: ['apps/portal/tsconfig.json'],
       },
     },
   },
