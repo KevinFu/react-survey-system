@@ -34,7 +34,7 @@ export async function updateSurveyService(
   opt: { [key: string]: any },
 ): Promise<ResDataType> {
   const url = `/api/survey/${id}`
-  const data = (await axios.patch(url, { params: opt })) as ResDataType
+  const data = (await axios.patch(url, opt)) as ResDataType
   return data
 }
 

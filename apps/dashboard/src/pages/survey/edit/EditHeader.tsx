@@ -1,9 +1,12 @@
 import { useState, type ChangeEvent, type FC } from 'react'
-import { Button, Input, Space, Typography } from 'antd'
-import { EditOutlined, LeftOutlined } from '@ant-design/icons'
-import { useNavigate } from 'react-router-dom'
+import { Button, Input, message, Space, Typography } from 'antd'
+import { EditOutlined, LeftOutlined, LoadingOutlined } from '@ant-design/icons'
+import { useNavigate, useParams } from 'react-router-dom'
 import EditToolbar from './EditToolbar'
 import usePageInfoStore from '../../../store/pageInfo'
+import useComponentStore from '../../../store/components'
+import { useDebounceEffect, useKeyPress, useRequest } from 'ahooks'
+import { updateSurveyService } from '../../../services/survey'
 
 const { Title } = Typography
 
@@ -51,6 +54,36 @@ const TitleElem: FC = () => {
 
 const EditHeader: FC = () => {
   const nav = useNavigate()
+  const { id = '' } = useParams()
+  const pageInfo = usePageInfoStore((state) => state.pageInfo)
+  const { componentList } = useComponentStore((state) => state.components)
+
+  const { run: save, loading } = useRequest(
+    async () => {
+      if (!id) return
+      await updateSurveyService(id, { ...pageInfo, componentList })
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('Save success')
+      },
+    },
+  )
+
+  useKeyPress(['ctrl.s', 'meta.s'], (e) => {
+    e.preventDefault()
+    if (!loading) save()
+  })
+
+  useDebounceEffect(
+    () => {
+      save()
+    },
+    [pageInfo, componentList],
+    { wait: 500 },
+  )
+
   return (
     <div className="bg-[#fff] p-[12px] border-x-0 border-t-0 border-solid border-b-[#e8e8e8]">
       <div className="flex mx-[24px]">
@@ -67,7 +100,13 @@ const EditHeader: FC = () => {
         </div>
         <div className="flex-1 text-right">
           <Space>
-            <Button>Save</Button>
+            <Button
+              onClick={save}
+              disabled={loading}
+              icon={loading && <LoadingOutlined />}
+            >
+              Save
+            </Button>
             <Button type="primary">Publish</Button>
           </Space>
         </div>
