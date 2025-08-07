@@ -1,19 +1,20 @@
-/* 导入 Ant Design 样式 */
 @import 'antd/dist/reset.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 去除链接下划线 */
 a {
   text-decoration: none !important;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* 保留基础样式，移除深色主题覆盖 */
+div[role='button'] {
+  outline: 0;
+}

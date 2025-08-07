@@ -2,7 +2,10 @@ import { useKeyPress } from 'ahooks'
 import useComponentStore from '../store/components'
 
 function isActiveElementValid() {
-  return document.activeElement === document.body
+  return (
+    document.activeElement === document.body ||
+    document.activeElement?.matches('div[role="button"]')
+  )
 }
 const useCanvasKeyPress = () => {
   const removeSelectedComponent = useComponentStore(

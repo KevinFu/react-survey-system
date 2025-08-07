@@ -1,12 +1,16 @@
 import type { FC } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Layout, Spin } from 'antd'
+import { Layout, message, Spin } from 'antd'
 import Logo from '../components/Logo'
 import UserInfo from '../components/UserInfo'
 import useLoadUserData from '../hooks/useLoadUserData'
 import useNavPage from '../hooks/userNavPage'
 
 const { Header, Content, Footer } = Layout
+
+message.config({
+  maxCount: 1,
+})
 
 const MainLayout: FC = () => {
   const { waitingUserData } = useLoadUserData()
