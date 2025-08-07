@@ -58,7 +58,7 @@ const EditHeader: FC = () => {
   const pageInfo = usePageInfoStore((state) => state.pageInfo)
   const { componentList } = useComponentStore((state) => state.components)
 
-  const { run: save, loading } = useRequest(
+  const { run: save, loading: saveLoading } = useRequest(
     async () => {
       if (!id) return
       await updateSurveyService(id, { ...pageInfo, componentList })
@@ -71,9 +71,27 @@ const EditHeader: FC = () => {
     },
   )
 
+  const { run: publish, loading: publishLoading } = useRequest(
+    async () => {
+      if (!id) return
+      await updateSurveyService(id, {
+        ...pageInfo,
+        componentList,
+        isPublish: true,
+      })
+    },
+    {
+      manual: true,
+      onSuccess: () => {
+        message.success('Publish success')
+        nav(`/survey/statistics/${id}`)
+      },
+    },
+  )
+
   useKeyPress(['ctrl.s', 'meta.s'], (e) => {
     e.preventDefault()
-    if (!loading) save()
+    if (!saveLoading) save()
   })
 
   useDebounceEffect(
@@ -102,12 +120,19 @@ const EditHeader: FC = () => {
           <Space>
             <Button
               onClick={save}
-              disabled={loading}
-              icon={loading && <LoadingOutlined />}
+              disabled={saveLoading}
+              icon={saveLoading && <LoadingOutlined />}
             >
               Save
             </Button>
-            <Button type="primary">Publish</Button>
+            <Button
+              type="primary"
+              onClick={publish}
+              disabled={publishLoading}
+              icon={publishLoading && <LoadingOutlined />}
+            >
+              Publish
+            </Button>
           </Space>
         </div>
       </div>
