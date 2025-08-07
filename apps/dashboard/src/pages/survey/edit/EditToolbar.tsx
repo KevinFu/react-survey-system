@@ -7,6 +7,8 @@ import {
   DownOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
+  RedoOutlined,
+  UndoOutlined,
   UpOutlined,
 } from '@ant-design/icons'
 import useComponentStore from '../../../store/components'
@@ -34,6 +36,8 @@ const EditToolbar: FC = () => {
     (state) => state.pasteCopiedComponent,
   )
   const moveComponent = useComponentStore((state) => state.moveComponent)
+
+  const { undo, redo } = useComponentStore.temporal.getState()
 
   function handleDelete() {
     removeSelectedComponent()
@@ -63,6 +67,14 @@ const EditToolbar: FC = () => {
   function moveDown() {
     if (isLast) return
     moveComponent(selectedIndex, selectedIndex + 1)
+  }
+
+  function handleUndo() {
+    undo()
+  }
+
+  function handleRedo() {
+    redo()
   }
 
   return (
@@ -115,6 +127,12 @@ const EditToolbar: FC = () => {
           disabled={isLast}
           icon={<DownOutlined />}
         />
+      </Tooltip>
+      <Tooltip title="Undo">
+        <Button shape="circle" onClick={handleUndo} icon={<UndoOutlined />} />
+      </Tooltip>
+      <Tooltip title="Redo">
+        <Button shape="circle" onClick={handleRedo} icon={<RedoOutlined />} />
       </Tooltip>
     </Space>
   )

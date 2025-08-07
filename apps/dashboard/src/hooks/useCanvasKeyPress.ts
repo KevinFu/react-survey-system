@@ -21,6 +21,7 @@ const useCanvasKeyPress = () => {
   const selectNextComponent = useComponentStore(
     (state) => state.selectNextComponent,
   )
+  const { undo, redo } = useComponentStore.temporal.getState()
 
   useKeyPress(['backspace', 'delete'], () => {
     if (!isActiveElementValid()) return
@@ -46,6 +47,28 @@ const useCanvasKeyPress = () => {
     if (!isActiveElementValid()) return
     selectNextComponent()
   })
+
+  useKeyPress(
+    ['ctrl.z', 'meta.z'],
+    () => {
+      if (!isActiveElementValid()) return
+      undo()
+    },
+    {
+      exactMatch: true,
+    },
+  )
+
+  useKeyPress(
+    ['ctrl.shift.z', 'meta.shift.z'],
+    () => {
+      if (!isActiveElementValid()) return
+      redo()
+    },
+    {
+      exactMatch: true,
+    },
+  )
 }
 
 export default useCanvasKeyPress

@@ -10,7 +10,15 @@
     "typescriptreact",
     "javascriptreact"
   ],
-  "cSpell.words": ["ahooks", "Appstore", "downarrow", "Idcard", "uparrow"],
+  "cSpell.words": [
+    "ahooks",
+    "Appstore",
+    "downarrow",
+    "Idcard",
+    "partialize",
+    "uparrow",
+    "zundo"
+  ],
   "tailwindcss.includeLanguages": {
     "typescript": "typescript",
     "typescriptreact": "typescriptreact"
