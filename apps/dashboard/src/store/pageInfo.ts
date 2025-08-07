@@ -18,6 +18,7 @@ const INIT_STATE: PageInfo = {
 export interface PageInfoState {
   pageInfo: PageInfo | null
   resetPageInfo: (pageInfo: PageInfo) => void
+  changePageTitle: (title: string) => void
 }
 
 const usePageInfoStore = create<PageInfoState>()(
@@ -27,6 +28,12 @@ const usePageInfoStore = create<PageInfoState>()(
     resetPageInfo: (pageInfo) => {
       set((state) => {
         state.pageInfo = pageInfo
+      })
+    },
+
+    changePageTitle: (newTitle) => {
+      set((state) => {
+        if (state.pageInfo) state.pageInfo.title = newTitle
       })
     },
   })),

@@ -26,7 +26,7 @@ export default [
         code: 0,
         data: Mock.mock({
           id: Random.id(),
-          title: Random.title(),
+          title: Random.title(2),
           desc: Random.title(),
           css: '',
           js: '',
