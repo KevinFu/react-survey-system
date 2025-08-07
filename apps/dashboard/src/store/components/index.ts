@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 import cloneDeep from 'lodash.clonedeep'
 import { nanoid } from 'nanoid'
+import { arrayMove } from '@dnd-kit/sortable'
 import { getNextSelectedId, insertNewComponent } from './util'
 import type { ComponentPropsType } from '../../components/SurveyComponents'
 
@@ -43,6 +44,7 @@ interface ComponentActions {
   selectPrevComponent: () => void
   selectNextComponent: () => void
   changeComponentTitle: (fe_id: string, newTitle: string) => void
+  moveComponent: (oldIndex: number, newIndex: number) => void
 }
 
 export type ComponentStore = ComponentListStore & ComponentActions
@@ -185,6 +187,17 @@ export const useComponentStore = create<ComponentStore>()(
         const curComponent = componentList[index]
 
         if (curComponent) curComponent.title = newTitle
+      })
+    },
+
+    moveComponent: (oldIndex, newIndex) => {
+      set((state) => {
+        const { componentList } = state.components
+        state.components.componentList = arrayMove(
+          componentList,
+          oldIndex,
+          newIndex,
+        )
       })
     },
   })),
