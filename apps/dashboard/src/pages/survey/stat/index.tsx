@@ -5,6 +5,7 @@ import usePageInfoStore from '../../../store/pageInfo'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useTitle } from 'ahooks'
+import StatHeader from './StatHeader'
 
 const Stat: FC = () => {
   const navigate = useNavigate()
@@ -50,7 +51,9 @@ const Stat: FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f0f2f5]">
-      <div>Header</div>
+      <div>
+        <StatHeader />
+      </div>
       <div className="flex-auto py-3">
         {loading && LoadingElem}
         {!loading && <div className="mx-6 flex">{genContentElem()}</div>}
