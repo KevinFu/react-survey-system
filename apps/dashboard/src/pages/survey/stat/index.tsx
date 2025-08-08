@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 import { Button, Card, Spin } from 'antd'
 import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
 import usePageInfoStore from '../../../store/pageInfo'
@@ -6,11 +6,19 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useTitle } from 'ahooks'
 import StatHeader from './StatHeader'
+import SurveyComponentList from './ComponentList'
 
 const Stat: FC = () => {
   const navigate = useNavigate()
   const { loading } = useLoadSurveyInfo()
   const { title, isPublish } = usePageInfoStore((state) => state.pageInfo) || {}
+
+  const [selectComponentId, setSelectComponentId] = useState('')
+  const [selectComponentType, setSelectComponentType] = useState('')
+
+  useEffect(() => {
+    console.log(selectComponentId, selectComponentType)
+  }, [selectComponentId, selectComponentType])
 
   useTitle(`Survey Statistics - ${title}`)
 
@@ -41,10 +49,16 @@ const Stat: FC = () => {
 
     return (
       <>
-        <div className="w-[350px] mr-6">Left</div>
-
+        <div className="w-[350px] bg-white mr-6 h-[calc(100vh-80px)] overflow-y-auto">
+          <SurveyComponentList
+            selectComponentId={selectComponentId}
+            selectComponentType={selectComponentType}
+            setSelectComponentId={setSelectComponentId}
+            setSelectComponentType={setSelectComponentType}
+          />
+        </div>
         <div className="flex-auto bg-white p-4">Main</div>
-        <div className="w-[400px] ml-6 bg-white p-4 overflow-hidden">Right</div>
+        <div className="w-[400px] ml-6 bg-white p-4">Right</div>
       </>
     )
   }
@@ -56,7 +70,11 @@ const Stat: FC = () => {
       </div>
       <div className="flex-auto py-3">
         {loading && LoadingElem}
-        {!loading && <div className="mx-6 flex">{genContentElem()}</div>}
+        {!loading && (
+          <div className="mx-6 flex h-[calc(100vh-80px)] overflow-hidden">
+            {genContentElem()}
+          </div>
+        )}
       </div>
     </div>
   )
