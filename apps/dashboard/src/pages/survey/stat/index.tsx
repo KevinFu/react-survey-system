@@ -8,6 +8,7 @@ import { useTitle } from 'ahooks'
 import StatHeader from './StatHeader'
 import SurveyComponentList from './ComponentList'
 import PageStat from './PageStat'
+import ChartStat from './ChartStat'
 
 const Stat: FC = () => {
   const navigate = useNavigate()
@@ -17,9 +18,7 @@ const Stat: FC = () => {
   const [selectComponentId, setSelectComponentId] = useState('')
   const [selectComponentType, setSelectComponentType] = useState('')
 
-  useEffect(() => {
-    console.log(selectComponentId, selectComponentType)
-  }, [selectComponentId, selectComponentType])
+  useEffect(() => {}, [selectComponentId, selectComponentType])
 
   useTitle(`Survey Statistics - ${title}`)
 
@@ -65,7 +64,12 @@ const Stat: FC = () => {
             setSelectComponentType={setSelectComponentType}
           />
         </div>
-        <div className="w-[400px] ml-6 bg-white p-4">Right</div>
+        <div className="w-[400px] ml-6 bg-white p-4">
+          <ChartStat
+            selectComponentId={selectComponentId}
+            selectComponentType={selectComponentType}
+          />
+        </div>
       </>
     )
   }

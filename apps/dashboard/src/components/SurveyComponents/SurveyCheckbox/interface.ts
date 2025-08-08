@@ -21,3 +21,7 @@ export const SurveyCheckboxDefaultProps: SurveyCheckboxPropsType = {
     { value: 'item3', text: 'Option 3', checked: false },
   ],
 }
+
+export type SurveyCheckboxStatPropsType = {
+  stat: Array<{ name: string; count: number }>
+}

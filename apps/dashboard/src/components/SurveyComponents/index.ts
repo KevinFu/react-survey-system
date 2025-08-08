@@ -8,9 +8,13 @@ import SurveyParagraphConfType, {
   type SurveyParagraphPropsType,
 } from './SurveyParagraph'
 import SurveyInfoConfType, { type SurveyInfoPropsType } from './SurveyInfo'
-import SurveyRadioConfType, { type SurveyRadioPropsType } from './SurveyRadio'
+import SurveyRadioConfType, {
+  type SurveyRadioPropsType,
+  type SurveyRadioStatPropsType,
+} from './SurveyRadio'
 import SurveyCheckboxConfType, {
   type SurveyCheckboxPropsType,
+  type SurveyCheckboxStatPropsType,
 } from './SurveyCheckbox'
 
 export type ComponentPropsType = SurveyInputPropsType &
@@ -21,12 +25,16 @@ export type ComponentPropsType = SurveyInputPropsType &
   SurveyRadioPropsType &
   SurveyCheckboxPropsType
 
+type ComponentStatPropsType = SurveyRadioStatPropsType &
+  SurveyCheckboxStatPropsType
+
 export type ComponentConfType = {
   title: string
   type: string
   Component: FC<ComponentPropsType>
   PropComponent: FC<ComponentPropsType>
   defaultProps: ComponentPropsType
+  StatComponent?: FC<ComponentStatPropsType>
 }
 
 const componentConfList: ComponentConfType[] = [
