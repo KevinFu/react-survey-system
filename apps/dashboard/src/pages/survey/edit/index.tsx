@@ -1,4 +1,5 @@
 import { type FC } from 'react'
+import { useTitle } from 'ahooks'
 import EditHeader from './EditHeader'
 import EditCanvas from './EditCanvas'
 import LeftPanel from './LeftPanel'
@@ -6,10 +7,15 @@ import RightPanel from './RightPanel'
 
 import useLoadSurveyInfo from '../../../hooks/useLoadSurveyInfo'
 import useComponentStore from '../../../store/components'
+import usePageInfoStore from '../../../store/pageInfo'
 
 const Edit: FC = () => {
   const { loading } = useLoadSurveyInfo()
+
+  const { title } = usePageInfoStore((state) => state.pageInfo) || {}
   const changeSelectedId = useComponentStore((state) => state.changeSelectedId)
+
+  useTitle(`Survey Edit - ${title}`)
 
   function clearSelectedId() {
     changeSelectedId('')

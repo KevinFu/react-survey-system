@@ -30,6 +30,7 @@ export default [
           desc: Random.title(),
           css: '',
           js: '',
+          isPublish: true,
           componentList: [
             // Title
             {

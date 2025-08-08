@@ -14,7 +14,7 @@ import Star from '../pages/manage/star'
 import Trash from '../pages/manage/trash'
 
 import Edit from '../pages/survey/edit'
-import Statistics from '../pages/survey/statistics'
+import Stat from '../pages/survey/stat'
 
 const router = createBrowserRouter([
   {
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     element: <SurveyLayout />,
     children: [
       { path: 'edit/:id', element: <Edit /> },
-      { path: 'statistics/:id', element: <Statistics /> },
+      { path: 'stat/:id', element: <Stat /> },
     ],
   },
   { path: '*', element: <NotFound /> },
@@ -56,7 +56,7 @@ export const MANAGE_LIST_PATHNAME = '/manage/list'
 export const MANAGE_STAR_PATHNAME = '/manage/star'
 export const MANAGE_TRASH_PATHNAME = '/manage/trash'
 export const SURVEY_EDIT_PATH = (id: string) => `/survey/edit/${id}`
-export const SURVEY_STATS_PATH = (id: string) => `/survey/statistics/${id}`
+export const SURVEY_STATS_PATH = (id: string) => `/survey/stat/${id}`
 
 export function isLoginOrRegister(pathname: string) {
   if ([LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname)) return true

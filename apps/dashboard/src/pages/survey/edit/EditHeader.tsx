@@ -84,7 +84,7 @@ const EditHeader: FC = () => {
       manual: true,
       onSuccess: () => {
         message.success('Publish success')
-        nav(`/survey/statistics/${id}`)
+        nav(`/survey/stat/${id}`)
       },
     },
   )

@@ -6,6 +6,7 @@ export interface PageInfo {
   desc?: string
   css?: string
   js?: string
+  isPublish?: boolean
 }
 
 const INIT_STATE: PageInfo = {
@@ -13,6 +14,7 @@ const INIT_STATE: PageInfo = {
   desc: '',
   css: '',
   js: '',
+  isPublish: false,
 }
 
 export interface PageInfoState {

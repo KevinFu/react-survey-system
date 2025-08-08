@@ -80,9 +80,7 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
           <div className="flex-1">
             <Link
               className="text-lg font-semibold cursor-pointer"
-              to={
-                isPublished ? `/survey/statistics/${id}` : `/survey/edit/${id}`
-              }
+              to={isPublished ? `/survey/stat/${id}` : `/survey/edit/${id}`}
             >
               <span className="inline-flex items-center gap-1">
                 {isStared && <StarOutlined />}
@@ -134,7 +132,7 @@ const SurveyCard: FC<SurveyCardProps> = (props) => {
               className="transition-all duration-200 ease-in-out disabled:opacity-80 disabled:cursor-not-allowed"
               onClick={() => {
                 if (isPublished) {
-                  navigate(`/survey/statistics/${id}`)
+                  navigate(`/survey/stat/${id}`)
                 }
               }}
             >
