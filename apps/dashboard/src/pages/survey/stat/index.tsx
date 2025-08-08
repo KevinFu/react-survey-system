@@ -13,34 +13,49 @@ const Stat: FC = () => {
 
   useTitle(`Survey Statistics - ${title}`)
 
-  if (loading) {
-    return (
-      <div className="text-center mt-[100px]">
-        <Spin />
-      </div>
-    )
-  }
+  const LoadingElem = (
+    <div className="text-center mt-[100px]">
+      <Spin />
+    </div>
+  )
 
-  if (!isPublish) {
+  function genContentElem() {
+    if (typeof isPublish === 'boolean' && !isPublish) {
+      return (
+        <div className="flex-1 flex items-center justify-center p-4">
+          <Card className="w-96 shadow-xl">
+            <div className="text-center">
+              <ExclamationCircleOutlined className="text-6xl mb-4" />
+              <h3 className="text-xl font-semibold mb-2">
+                Survey Not Published
+              </h3>
+              <Button type="primary" size="large" onClick={() => navigate(-1)}>
+                Back to Last Page
+              </Button>
+            </div>
+          </Card>
+        </div>
+      )
+    }
+
     return (
-      <div className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-96 shadow-xl">
-          <div className="text-center">
-            <ExclamationCircleOutlined className="text-6xl mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Survey Not Published</h3>
-            <Button type="primary" size="large" onClick={() => navigate(-1)}>
-              Back to Last Page
-            </Button>
-          </div>
-        </Card>
-      </div>
+      <>
+        <div className="w-[350px] mr-6">Left</div>
+
+        <div className="flex-auto bg-white p-4">Main</div>
+        <div className="w-[400px] ml-6 bg-white p-4 overflow-hidden">Right</div>
+      </>
     )
   }
 
   return (
-    <>
-      <div>2</div>
-    </>
+    <div className="flex flex-col min-h-screen bg-[#f0f2f5]">
+      <div>Header</div>
+      <div className="flex-auto py-3">
+        {loading && LoadingElem}
+        {!loading && <div className="mx-6 flex">{genContentElem()}</div>}
+      </div>
+    </div>
   )
 }
 

@@ -14,7 +14,6 @@ const INIT_STATE: PageInfo = {
   desc: '',
   css: '',
   js: '',
-  isPublish: false,
 }
 
 export interface PageInfoState {
