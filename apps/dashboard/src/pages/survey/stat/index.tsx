@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTitle } from 'ahooks'
 import StatHeader from './StatHeader'
 import SurveyComponentList from './ComponentList'
+import PageStat from './PageStat'
 
 const Stat: FC = () => {
   const navigate = useNavigate()
@@ -49,7 +50,7 @@ const Stat: FC = () => {
 
     return (
       <>
-        <div className="w-[350px] bg-white mr-6 h-[calc(100vh-80px)] overflow-y-auto">
+        <div className="w-[380px] bg-white mr-6 overflow-y-auto">
           <SurveyComponentList
             selectComponentId={selectComponentId}
             selectComponentType={selectComponentType}
@@ -57,7 +58,13 @@ const Stat: FC = () => {
             setSelectComponentType={setSelectComponentType}
           />
         </div>
-        <div className="flex-auto bg-white p-4">Main</div>
+        <div className="flex-auto max-w-[calc(100vw-780px)] bg-white p-4">
+          <PageStat
+            selectComponentId={selectComponentId}
+            setSelectComponentId={setSelectComponentId}
+            setSelectComponentType={setSelectComponentType}
+          />
+        </div>
         <div className="w-[400px] ml-6 bg-white p-4">Right</div>
       </>
     )
