@@ -28,10 +28,11 @@ export default [
         data: Mock.mock({
           id: Random.id(),
           title: Random.title(2),
-          desc: Random.title(),
-          css: '',
-          js: '',
+          desc: 'survey desc',
+          css: 'body{background:#cee}',
+          js: "console.log('from mock server')",
           isPublish: true,
+          isDeleted: false,
           componentList: getComponentList(),
         }),
       }
