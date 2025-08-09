@@ -21,6 +21,11 @@ export default defineConfig(({ mode }) => {
           brotliSize: true,
         }),
     ],
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: './src/setupTests.ts',
+    },
     build: {
       sourcemap: true,
       rollupOptions: {
