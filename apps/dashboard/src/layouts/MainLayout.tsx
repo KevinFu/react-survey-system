@@ -18,7 +18,7 @@ const MainLayout: FC = () => {
 
   return (
     <Layout className="flex flex-col">
-      <Header className="h-20 flex items-center justify-between px-20">
+      <Header className="min-w-[1200px] h-20 flex items-center justify-between px-20">
         <Logo />
         <UserInfo />
       </Header>
@@ -31,7 +31,7 @@ const MainLayout: FC = () => {
           <Outlet />
         )}
       </Content>
-      <Footer className="p-4 text-center">
+      <Footer className="p-4 text-center bg-white">
         <p>
           Copyright © {new Date().getFullYear()} - All right reserved by Kevin
         </p>
