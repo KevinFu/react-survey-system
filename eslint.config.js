@@ -59,5 +59,13 @@ export default [
       },
     },
   },
+  {
+    files: ['apps/core-api/**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        project: ['apps/core-api/tsconfig.json'],
+      },
+    },
+  },
   prettier,
 ]
