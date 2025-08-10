@@ -14,4 +14,8 @@ export class UserService {
     const createdUser = new this.userModal(userDto);
     return await createdUser.save();
   }
+
+  async findOne(username: string, password: string) {
+    return await this.userModal.findOne({ username, password });
+  }
 }
