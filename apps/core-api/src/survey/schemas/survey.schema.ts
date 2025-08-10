@@ -3,7 +3,9 @@ import { HydratedDocument } from 'mongoose';
 
 export type SurveyDocument = HydratedDocument<Survey>;
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class Survey {
   @Prop({ isRequired: true })
   title: string;
