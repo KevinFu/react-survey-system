@@ -7,17 +7,23 @@ import {
   Body,
   Delete,
   Post,
+  Request,
 } from '@nestjs/common';
 import { SurveyService } from './survey.service';
 import { SurveyDto } from './dto/survey.dto';
+
+interface RequestUser {
+  username: string;
+}
 
 @Controller('survey')
 export class SurveyController {
   constructor(private readonly surveyService: SurveyService) {}
 
   @Post()
-  create() {
-    return this.surveyService.create();
+  create(@Request() req: Request & { user: RequestUser }) {
+    const { username } = req.user;
+    return this.surveyService.create(username);
   }
 
   @Get(':id')

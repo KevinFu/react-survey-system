@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { Public } from 'src/auth/decorators/public.decorator';
 import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 
@@ -12,6 +13,7 @@ import { UserDto } from './dto/user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Public()
   @Post('register')
   async register(@Body() userDto: UserDto) {
     try {

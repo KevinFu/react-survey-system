@@ -12,6 +12,9 @@ export class Survey {
 
   @Prop()
   desc: string;
+
+  @Prop({ isRequired: true })
+  author: string;
 }
 
 export const SurveySchema = SchemaFactory.createForClass(Survey);

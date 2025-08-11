@@ -12,10 +12,11 @@ export class SurveyService {
     @InjectModel(Survey.name) private readonly surveyModule: Model<Survey>,
   ) {}
 
-  async create() {
+  async create(username: string) {
     const survey = new this.surveyModule({
       title: 'title' + Date.now(),
       desc: 'desc',
+      author: username,
     });
 
     return await survey.save();
