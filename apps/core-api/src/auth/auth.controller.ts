@@ -16,8 +16,7 @@ export class AuthController {
   }
 
   @Get('profile')
-  getProfile(@Request() req) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+  getProfile(@Request() req: Request & { user: UserDto }) {
     return req.user;
   }
 }
