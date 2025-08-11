@@ -6,7 +6,7 @@ export interface PageInfo {
   desc?: string
   css?: string
   js?: string
-  isPublish?: boolean
+  isPublished?: boolean
 }
 
 const INIT_STATE: PageInfo = {

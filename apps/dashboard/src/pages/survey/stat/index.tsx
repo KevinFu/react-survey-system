@@ -13,7 +13,8 @@ import ChartStat from './ChartStat'
 const Stat: FC = () => {
   const navigate = useNavigate()
   const { loading } = useLoadSurveyInfo()
-  const { title, isPublish } = usePageInfoStore((state) => state.pageInfo) || {}
+  const { title, isPublished } =
+    usePageInfoStore((state) => state.pageInfo) || {}
 
   const [selectComponentId, setSelectComponentId] = useState('')
   const [selectComponentType, setSelectComponentType] = useState('')
@@ -29,7 +30,7 @@ const Stat: FC = () => {
   )
 
   function genContentElem() {
-    if (typeof isPublish === 'boolean' && !isPublish) {
+    if (typeof isPublished === 'boolean' && !isPublished) {
       return (
         <div className="flex-1 flex items-center justify-center p-4">
           <Card className="w-96 shadow-xl">

@@ -13,12 +13,12 @@ export async function generateMetadata({
   const { code, data } = await getSurveyById(id)
 
   let { title } = data || {}
-  const { desc, isPublish, isDeleted } = data || {}
+  const { desc, isPublished, isDeleted } = data || {}
 
   if (code !== 0) {
     title = 'No Survey'
   }
-  if (!isPublish) {
+  if (!isPublished) {
     title = 'Survey is not published'
   }
   if (isDeleted) {
@@ -41,7 +41,7 @@ export default async function SurveyLayout({
   const { id } = await params
   const { code, msg, data } = await getSurveyById(id)
 
-  const { css = '', isPublish, isDeleted } = data || {}
+  const { css = '', isPublished, isDeleted } = data || {}
 
   if (code !== 0) {
     return <div>{msg}</div>
@@ -50,7 +50,7 @@ export default async function SurveyLayout({
   if (code !== 0) {
     return <div>No Survey</div>
   }
-  if (!isPublish) {
+  if (!isPublished) {
     return <div>Survey is not published</div>
   }
   if (isDeleted) {

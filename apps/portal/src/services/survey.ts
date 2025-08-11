@@ -6,7 +6,7 @@ export interface SurveyData {
   desc?: string
   css?: string
   js?: string
-  isPublish?: boolean
+  isPublished?: boolean
   isDeleted: boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   componentList: any[]

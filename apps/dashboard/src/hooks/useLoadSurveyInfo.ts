@@ -29,11 +29,11 @@ const useLoadSurveyInfo = () => {
   useEffect(() => {
     if (!data) return
 
-    const { title, desc, css, js, isPublish, componentList } = data
+    const { title, desc, css, js, isPublished, componentList } = data
     const selectedId = componentList.length > 0 ? componentList[0].fe_id : ''
 
     resetComponents({ componentList, selectedId, copiedComponent: null })
-    resetPageInfo({ title, desc, css, js, isPublish })
+    resetPageInfo({ title, desc, css, js, isPublished })
   }, [data, resetComponents, resetPageInfo])
 
   return { loading, error }

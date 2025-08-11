@@ -31,7 +31,7 @@ export default [
           desc: 'survey desc',
           css: 'body{background:#cee}',
           js: "console.log('from mock server')",
-          isPublish: true,
+          isPublished: true,
           isDeleted: false,
           componentList: getComponentList(),
         }),

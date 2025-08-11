@@ -12,6 +12,7 @@ import {
 import { SurveyService } from './survey.service';
 import { SurveyDto } from './dto/survey.dto';
 import { DeleteResult } from 'mongoose';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 interface RequestUser {
   username: string;
@@ -27,6 +28,7 @@ export class SurveyController {
     return this.surveyService.create(username);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.surveyService.findOne(id);

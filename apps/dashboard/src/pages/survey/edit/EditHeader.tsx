@@ -77,7 +77,7 @@ const EditHeader: FC = () => {
       await updateSurveyService(id, {
         ...pageInfo,
         componentList,
-        isPublish: true,
+        isPublished: true,
       })
     },
     {

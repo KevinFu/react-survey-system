@@ -1,4 +1,4 @@
-const HOST = 'http://localhost:5173'
+const HOST = 'http://localhost:3001'
 
 export async function get(url: string) {
   const res = await fetch(`${HOST}${url}`)
@@ -6,10 +6,12 @@ export async function get(url: string) {
   return res.json()
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function post(url: string, body: any) {
+export async function post(url: string, body: unknown) {
   const res = await fetch(`${HOST}${url}`, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify(body),
   })
 

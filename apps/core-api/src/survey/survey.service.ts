@@ -63,8 +63,8 @@ export class SurveyService {
 
     const newSurvey = new this.surveyModule({
       ...survey.toObject(),
-      _id: new mongoose.Types.ObjectId(), // 生成一个新的 mongodb ObjectId
-      title: survey.title + ' 副本',
+      _id: new mongoose.Types.ObjectId(),
+      title: survey.title + ' Copy',
       author,
       isPublished: false,
       isStar: false,
