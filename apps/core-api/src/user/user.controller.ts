@@ -1,9 +1,11 @@
 import {
   Controller,
+  Get,
   Post,
   Body,
   HttpException,
   HttpStatus,
+  Redirect,
 } from '@nestjs/common';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { UserService } from './user.service';
@@ -21,5 +23,17 @@ export class UserController {
     } catch (err) {
       throw new HttpException(err as string, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @Post('login')
+  @Redirect('/api/auth/login', 307)
+  login() {
+    return;
+  }
+
+  @Get('info')
+  @Redirect('/api/auth/profile', 302)
+  info() {
+    return;
   }
 }
