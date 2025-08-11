@@ -75,8 +75,8 @@ export class SurveyController {
     @Query('keyword') keyword: string,
     @Query('page') page: number,
     @Query('pageSize') pageSize: number,
-    @Query('isDeleted') isDeleted: boolean = false,
-    @Query('isStar') isStar: boolean = false,
+    @Query('isDeleted') isDeleted: boolean,
+    @Query('isStar') isStar: boolean,
     @Request() req: Request & { user: RequestUser },
   ) {
     const { username } = req.user;
@@ -90,7 +90,7 @@ export class SurveyController {
       author: username,
     });
 
-    const count = await this.surveyService.countAll({
+    const total = await this.surveyService.countAll({
       keyword,
       author: username,
       isDeleted,
@@ -99,7 +99,7 @@ export class SurveyController {
 
     return {
       list,
-      count,
+      total,
     };
   }
 }

@@ -9,7 +9,10 @@ import useLoadSurveyList from '../../hooks/useLoadSurveyList'
 const StaredSurvey: FC = () => {
   useTitle('Survey Dashboard - Stared Surveys')
 
-  const { data = {}, loading } = useLoadSurveyList({ isStar: true })
+  const { data = {}, loading } = useLoadSurveyList({
+    isStar: true,
+    isDeleted: false,
+  })
   const { list = [], total = 0 } = data
 
   return (
@@ -35,7 +38,7 @@ const StaredSurvey: FC = () => {
         <div>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {list.map((survey: any) => (
-            <SurveyCard key={survey.id} {...survey} />
+            <SurveyCard key={survey._id} {...survey} />
           ))}
           <ListPage total={total} children={undefined} />
         </div>

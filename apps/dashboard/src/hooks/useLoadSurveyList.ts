@@ -13,7 +13,7 @@ interface SearchParams {
   isDeleted: boolean
 }
 const useLoadSurveyList = (opt: Partial<SearchParams> = {}) => {
-  const { isStar = false, isDeleted = false } = opt
+  const { isStar, isDeleted } = opt
   const [searchParams] = useSearchParams()
   const keyword = searchParams.get(LIST_SEARCH_PARAM_KEY) || ''
   const page = Number(searchParams.get(LIST_PAGE_PARAM_KEY) || '') || 1

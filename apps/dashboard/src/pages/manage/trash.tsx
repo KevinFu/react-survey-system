@@ -14,7 +14,7 @@ import useLoadSurveyList from '../../hooks/useLoadSurveyList'
 import { updateSurveyService, deleteSurveyService } from '../../services/survey'
 
 interface SurveyItem {
-  id: string
+  _id: string
   title: string
   description: string
   isPublished: boolean
@@ -155,7 +155,7 @@ const Trash: FC = () => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={list}
-          rowKey="id"
+          rowKey="_id"
           pagination={false}
           locale={{
             emptyText: (

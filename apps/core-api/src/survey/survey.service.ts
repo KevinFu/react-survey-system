@@ -16,21 +16,21 @@ export class SurveyService {
   ) {}
 
   async create(username: string) {
-    const question = new this.surveyModule({
-      title: '问卷标题' + Date.now(),
-      desc: '问卷描述',
+    const survey = new this.surveyModule({
+      title: 'Survey Title' + Date.now(),
+      desc: 'description',
       author: username,
       componentList: [
         {
           fe_id: nanoid(),
-          type: 'questionInfo',
-          title: '问卷信息',
-          props: { title: '问卷标题', desc: '问卷描述...' },
+          type: 'surveyInfo',
+          title: 'Survey Info',
+          props: { title: 'Survey Title', desc: 'description...' },
         },
       ],
     });
 
-    return await question.save();
+    return await survey.save();
   }
 
   async findOne(id: string) {
@@ -82,16 +82,14 @@ export class SurveyService {
     keyword = '',
     page = 1,
     pageSize = 10,
-    isDeleted = false,
+    isDeleted,
     isStar,
     author = '',
   }) {
-    const whereOption: RootFilterQuery<Survey> = {
-      author,
-      isDeleted,
-      isStar,
-    };
+    const whereOption: RootFilterQuery<Survey> = { author };
+
     if (isStar != null) whereOption.isStar = isStar as boolean;
+    if (isDeleted != null) whereOption.isDeleted = isDeleted as boolean;
 
     if (keyword) {
       const reg = new RegExp(keyword, 'i');
@@ -105,12 +103,11 @@ export class SurveyService {
       .limit(pageSize);
   }
 
-  async countAll({ keyword = '', isDeleted = false, author = '', isStar }) {
-    const whereOption: RootFilterQuery<Survey> = {
-      author,
-      isDeleted,
-    };
+  async countAll({ keyword = '', isDeleted, author = '', isStar }) {
+    const whereOption: RootFilterQuery<Survey> = { author };
+
     if (isStar != null) whereOption.isStar = isStar as boolean;
+    if (isDeleted != null) whereOption.isDeleted = isDeleted as boolean;
 
     if (keyword) {
       const reg = new RegExp(keyword, 'i');

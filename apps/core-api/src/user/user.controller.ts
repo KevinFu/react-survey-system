@@ -25,6 +25,7 @@ export class UserController {
     }
   }
 
+  @Public()
   @Post('login')
   @Redirect('/api/auth/login', 307)
   login() {

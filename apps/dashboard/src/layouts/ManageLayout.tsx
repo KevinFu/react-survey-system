@@ -25,7 +25,7 @@ const ManageLayout: FC = () => {
   const onCreate = async () => {
     try {
       setLoading(true)
-      const { id } = (await createSurveyService()) || {}
+      const { _id: id } = (await createSurveyService()) || {}
       if (id) nav(`/survey/edit/${id}`)
     } finally {
       setLoading(false)

@@ -27,6 +27,7 @@ const SurveyList: FC = () => {
         page,
         pageSize: LIST_DEFAULT_PAGE_SIZE,
         keyword,
+        isDeleted: false,
       })
       return data
     },
@@ -97,7 +98,9 @@ const SurveyList: FC = () => {
       <div>
         {list.length > 0 &&
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          list.map((survey: any) => <SurveyCard key={survey.id} {...survey} />)}
+          list.map((survey: any) => (
+            <SurveyCard key={survey._id} {...survey} />
+          ))}
       </div>
       <div
         ref={loadMoreRef}

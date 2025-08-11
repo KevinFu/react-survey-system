@@ -15,7 +15,7 @@ import { useRequest } from 'ahooks'
 import { updateSurveyService, duplicateSurveyService } from '../services/survey'
 
 interface SurveyCardProps {
-  id: string
+  _id: string
   title: string
   description: string
   isPublished: boolean
@@ -26,7 +26,7 @@ interface SurveyCardProps {
 }
 
 const SurveyCard: FC<SurveyCardProps> = (props) => {
-  const { id, title, isPublished, isStar, answerCount, createdAt } = props
+  const { _id: id, title, isPublished, isStar, answerCount, createdAt } = props
   const navigate = useNavigate()
   const [isStared, setIsStared] = useState(isStar)
   const [isDeleted, setIsDeleted] = useState(false)

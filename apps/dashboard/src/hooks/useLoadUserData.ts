@@ -4,9 +4,9 @@ import { useRequest } from 'ahooks'
 import { getUserInfoService } from '../services/user'
 
 function useLoadUserData() {
-  const [waitingUserData, setWaitingUserData] = useState(true)
-  const { nickname } = useUserStore((state) => state.user)
   const login = useUserStore((state) => state.login)
+  const { username } = useUserStore((state) => state.user)
+  const [waitingUserData, setWaitingUserData] = useState(true)
 
   const { run } = useRequest(getUserInfoService, {
     manual: true,
@@ -20,12 +20,12 @@ function useLoadUserData() {
   })
 
   useEffect(() => {
-    if (nickname) {
+    if (username) {
       setWaitingUserData(false)
       return
     }
     run()
-  }, [nickname, run])
+  }, [username, run])
 
   return { waitingUserData }
 }
