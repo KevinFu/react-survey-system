@@ -1,4 +1,9 @@
-import { DeleteResult, Model, RootFilterQuery, UpdateQuery } from 'mongoose';
+import mongoose, {
+  DeleteResult,
+  Model,
+  RootFilterQuery,
+  UpdateQuery,
+} from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { nanoid } from 'nanoid';
@@ -50,6 +55,27 @@ export class SurveyService {
 
   async update(id: string, updateData: UpdateQuery<Survey>, author) {
     return await this.surveyModule.updateOne({ _id: id, author }, updateData);
+  }
+
+  async duplicate(id: string, author: string) {
+    const survey = await this.surveyModule.findById(id);
+    if (!survey) return;
+
+    const newSurvey = new this.surveyModule({
+      ...survey.toObject(),
+      _id: new mongoose.Types.ObjectId(), // 生成一个新的 mongodb ObjectId
+      title: survey.title + ' 副本',
+      author,
+      isPublished: false,
+      isStar: false,
+      componentList: survey.componentList.map((item) => {
+        return {
+          ...item,
+          fe_id: nanoid(),
+        };
+      }),
+    });
+    return await newSurvey.save();
   }
 
   async findAll({

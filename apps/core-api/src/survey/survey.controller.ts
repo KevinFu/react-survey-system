@@ -51,6 +51,15 @@ export class SurveyController {
     return this.surveyService.deleteMany(ids, username);
   }
 
+  @Post('duplicate/:id')
+  duplicate(
+    @Param('id') id: string,
+    @Request() req: Request & { user: RequestUser },
+  ) {
+    const { username } = req.user;
+    return this.surveyService.duplicate(id, username);
+  }
+
   @Patch(':id')
   updateOne(
     @Param('id') id: string,
