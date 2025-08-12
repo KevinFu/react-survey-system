@@ -2,16 +2,14 @@ import Script from 'next/script'
 import { getSurveyById } from '@/services/survey'
 import { getComponent } from '@/components/SurveyComponents'
 
-interface PropsType {
-  id: string
-}
+type PropsType = { params: Promise<{ id: string }> }
 
-export default async function Stat({ params }: { params: PropsType }) {
+export default async function Stat({ params }: PropsType) {
   const { id } = await params
   const { data } = await getSurveyById(id)
 
   if (!data) {
-    return null
+    return <div>No Survey</div>
   }
 
   const { js, componentList } = data

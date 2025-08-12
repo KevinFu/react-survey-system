@@ -1,13 +1,8 @@
-import type { Metadata } from 'next'
 import { getSurveyById } from '@/services/survey'
 
-interface PropsType {
-  params: { id: string }
-}
+type PropsType = { params: Promise<{ id: string }> }
 
-export async function generateMetadata({
-  params,
-}: PropsType): Promise<Metadata> {
+export async function generateMetadata({ params }: PropsType) {
   const { id } = await params
 
   const { code, data } = await getSurveyById(id)
@@ -15,7 +10,7 @@ export async function generateMetadata({
   let { title } = data || {}
   const { desc, isPublished, isDeleted } = data || {}
 
-  if (code !== 0) {
+  if (code !== 0 || !data) {
     title = 'No Survey'
   }
   if (!isPublished) {
@@ -36,18 +31,18 @@ export default async function SurveyLayout({
   params,
 }: {
   children: React.ReactNode
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
   const { id } = await params
   const { code, msg, data } = await getSurveyById(id)
 
   const { css = '', isPublished, isDeleted } = data || {}
 
-  if (code !== 0) {
+  if (code !== 0 || !data) {
     return <div>{msg}</div>
   }
 
-  if (code !== 0) {
+  if (code !== 0 || !data) {
     return <div>No Survey</div>
   }
   if (!isPublished) {
