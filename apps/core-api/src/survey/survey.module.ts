@@ -8,6 +8,7 @@ import { Survey, SurveySchema } from './schemas/survey.schema';
   imports: [
     MongooseModule.forFeature([{ name: Survey.name, schema: SurveySchema }]),
   ],
+  exports: [SurveyService],
   providers: [SurveyService],
   controllers: [SurveyController],
 })
